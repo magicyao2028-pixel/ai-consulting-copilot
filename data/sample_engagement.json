@@ -1,0 +1,71 @@
+{
+  "engagement_id": "SYNTH-CONSULT-001",
+  "decision_question": "Should a regional retailer run an AI-assisted customer-service pilot?",
+  "context": {
+    "company_profile": "Synthetic regional retailer with marketplace and direct channels",
+    "decision_owner": "Operations Director",
+    "horizon_days": 30
+  },
+  "constraints": [
+    "No autonomous customer reply",
+    "No paid API dependency in the public prototype",
+    "No raw payment or password data in an uncontrolled model path"
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E-01",
+      "title": "Synthetic monthly support register",
+      "source_type": "internal_record",
+      "collected_at": "2026-07-31",
+      "claim": "The demonstration operation receives 4,200 support contacts per month.",
+      "metric": "monthly_support_volume",
+      "value": 4200,
+      "unit": "contacts/month",
+      "reliability": "verified"
+    },
+    {
+      "evidence_id": "E-02",
+      "title": "Synthetic intent review",
+      "source_type": "internal_record",
+      "collected_at": "2026-07-31",
+      "claim": "The three most repetitive intents represent 61 percent of contacts.",
+      "metric": "repetitive_contact_share_pct",
+      "value": 61,
+      "unit": "percent",
+      "reliability": "verified"
+    },
+    {
+      "evidence_id": "E-03",
+      "title": "Synthetic service baseline",
+      "source_type": "internal_record",
+      "collected_at": "2026-07-31",
+      "claim": "Median first response is 11.8 hours for the scoped channels.",
+      "metric": "first_response_hours",
+      "value": 11.8,
+      "unit": "hours",
+      "reliability": "verified"
+    },
+    {
+      "evidence_id": "E-04",
+      "title": "Synthetic privacy review",
+      "source_type": "policy",
+      "collected_at": "2026-07-29",
+      "claim": "Customer messages can contain payment-card fragments, email addresses and passwords.",
+      "metric": "sensitive_data_risk",
+      "value": 1,
+      "unit": "risk_flag",
+      "reliability": "verified"
+    },
+    {
+      "evidence_id": "E-05",
+      "title": "Unverified vendor marketing claim",
+      "source_type": "external_benchmark",
+      "collected_at": "2026-07-20",
+      "claim": "A vendor claims a 40 percent cost reduction without a reproducible method.",
+      "metric": "vendor_cost_reduction_pct",
+      "value": 40,
+      "unit": "percent",
+      "reliability": "unverified"
+    }
+  ]
+}

@@ -1,0 +1,180 @@
+{
+  "engagement_id": "SYNTH-CONSULT-001",
+  "status": "recommendation_ready",
+  "decision_question": "Should a regional retailer run an AI-assisted customer-service pilot?",
+  "executive_decision": "Run a 30-day assistive customer-service pilot with human approval gates.",
+  "confidence": "medium",
+  "findings": [
+    {
+      "claim": "The synthetic support operation handles 4200 contacts per month.",
+      "evidence_ids": [
+        "E-01"
+      ]
+    },
+    {
+      "claim": "Repetitive intents represent 61% of contacts, creating a bounded assistive use case.",
+      "evidence_ids": [
+        "E-02"
+      ]
+    },
+    {
+      "claim": "First response currently takes 11.8 hours, above the eight-hour pilot threshold.",
+      "evidence_ids": [
+        "E-03"
+      ]
+    }
+  ],
+  "options": [
+    {
+      "claim": "Keep the current manual workflow and continue measuring the baseline.",
+      "evidence_ids": [
+        "E-01",
+        "E-02",
+        "E-03"
+      ]
+    },
+    {
+      "claim": "Run a narrow assistive pilot for repetitive intents; recommended.",
+      "evidence_ids": [
+        "E-01",
+        "E-02",
+        "E-03"
+      ]
+    },
+    {
+      "claim": "Fully automate replies; rejected because current evidence does not support that risk.",
+      "evidence_ids": [
+        "E-01",
+        "E-02",
+        "E-03",
+        "E-04"
+      ]
+    }
+  ],
+  "recommendations": [
+    {
+      "claim": "Run a 30-day assistive customer-service pilot with human approval gates.",
+      "evidence_ids": [
+        "E-01",
+        "E-02",
+        "E-03"
+      ]
+    },
+    {
+      "claim": "Keep sensitive-data filtering and human approval as release gates.",
+      "evidence_ids": [
+        "E-04"
+      ]
+    }
+  ],
+  "risks": [
+    {
+      "claim": "Customer messages may contain sensitive data, so raw text must not enter an uncontrolled model path.",
+      "evidence_ids": [
+        "E-04"
+      ]
+    }
+  ],
+  "assumptions": [
+    "Synthetic records are directionally representative of the demonstration scenario.",
+    "The pilot will not send customer replies without an authorized reviewer."
+  ],
+  "pilot_plan": [
+    {
+      "days": "1-5",
+      "action": "Confirm baseline definitions, approved intents and privacy gate."
+    },
+    {
+      "days": "6-15",
+      "action": "Run shadow-mode suggestions against synthetic or approved test cases."
+    },
+    {
+      "days": "16-25",
+      "action": "Review exceptions, false routing and reviewer overrides."
+    },
+    {
+      "days": "26-30",
+      "action": "Compare against the baseline and make a human go/no-go decision."
+    }
+  ],
+  "success_measures": [
+    "Median first-response time for the scoped intents",
+    "Reviewer acceptance and override rate",
+    "Privacy or policy violations (target: zero)"
+  ],
+  "constraints": [
+    "No autonomous customer reply",
+    "No paid API dependency in the public prototype",
+    "No raw payment or password data in an uncontrolled model path"
+  ],
+  "ignored_unverified_evidence": [
+    "E-05"
+  ],
+  "evidence_register": [
+    {
+      "evidence_id": "E-01",
+      "title": "Synthetic monthly support register",
+      "source_type": "internal_record",
+      "collected_at": "2026-07-31",
+      "claim": "The demonstration operation receives 4,200 support contacts per month.",
+      "metric": "monthly_support_volume",
+      "value": 4200.0,
+      "unit": "contacts/month",
+      "reliability": "verified"
+    },
+    {
+      "evidence_id": "E-02",
+      "title": "Synthetic intent review",
+      "source_type": "internal_record",
+      "collected_at": "2026-07-31",
+      "claim": "The three most repetitive intents represent 61 percent of contacts.",
+      "metric": "repetitive_contact_share_pct",
+      "value": 61.0,
+      "unit": "percent",
+      "reliability": "verified"
+    },
+    {
+      "evidence_id": "E-03",
+      "title": "Synthetic service baseline",
+      "source_type": "internal_record",
+      "collected_at": "2026-07-31",
+      "claim": "Median first response is 11.8 hours for the scoped channels.",
+      "metric": "first_response_hours",
+      "value": 11.8,
+      "unit": "hours",
+      "reliability": "verified"
+    },
+    {
+      "evidence_id": "E-04",
+      "title": "Synthetic privacy review",
+      "source_type": "policy",
+      "collected_at": "2026-07-29",
+      "claim": "Customer messages can contain payment-card fragments, email addresses and passwords.",
+      "metric": "sensitive_data_risk",
+      "value": 1.0,
+      "unit": "risk_flag",
+      "reliability": "verified"
+    },
+    {
+      "evidence_id": "E-05",
+      "title": "Unverified vendor marketing claim",
+      "source_type": "external_benchmark",
+      "collected_at": "2026-07-20",
+      "claim": "A vendor claims a 40 percent cost reduction without a reproducible method.",
+      "metric": "vendor_cost_reduction_pct",
+      "value": 40.0,
+      "unit": "percent",
+      "reliability": "unverified"
+    }
+  ],
+  "governance": {
+    "human_approval_required": true,
+    "autonomous_customer_action": false,
+    "synthetic_public_data": true
+  },
+  "citation_coverage": {
+    "cited_claims": 9,
+    "total_claims": 9,
+    "percentage": 100.0
+  }
+}

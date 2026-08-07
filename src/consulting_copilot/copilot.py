@@ -1,0 +1,170 @@
+from __future__ import annotations
+
+from typing import Any
+
+from .models import ConsultingEngagement, EvidenceItem
+
+
+REQUIRED_METRICS = {
+    "monthly_support_volume",
+    "repetitive_contact_share_pct",
+    "first_response_hours",
+}
+
+
+class ConsultingCopilot:
+    """Builds a deterministic, cited decision memo from structured evidence."""
+
+    def analyze(self, engagement: ConsultingEngagement) -> dict[str, Any]:
+        usable = [item for item in engagement.evidence if item.reliability != "unverified"]
+        ignored = [item.evidence_id for item in engagement.evidence if item.reliability == "unverified"]
+        metrics = {item.metric: item for item in usable if item.metric}
+        missing = sorted(REQUIRED_METRICS.difference(metrics))
+
+        if missing:
+            return self._insufficient(engagement, usable, ignored, missing)
+
+        volume = metrics["monthly_support_volume"]
+        repetitive = metrics["repetitive_contact_share_pct"]
+        response = metrics["first_response_hours"]
+        pilot_supported = volume.value >= 1000 and repetitive.value >= 40 and response.value >= 8
+        key_ids = [volume.evidence_id, repetitive.evidence_id, response.evidence_id]
+
+        findings = [
+            self._claim(
+                f"The synthetic support operation handles {volume.value:g} contacts per month.",
+                [volume.evidence_id],
+            ),
+            self._claim(
+                (
+                    f"Repetitive intents represent {repetitive.value:g}% of contacts, "
+                    "creating a bounded assistive use case."
+                ),
+                [repetitive.evidence_id],
+            ),
+            self._claim(
+                f"First response currently takes {response.value:g} hours, above the eight-hour pilot threshold.",
+                [response.evidence_id],
+            ),
+        ]
+        risks = self._risks(usable)
+        risk_ids = risks[0]["evidence_ids"] if risks else []
+        decision = (
+            "Run a 30-day assistive customer-service pilot with human approval gates."
+            if pilot_supported
+            else "Do not start the pilot yet; the current metrics do not cross the defined thresholds."
+        )
+        recommendations = [self._claim(decision, key_ids)]
+        if risks:
+            recommendations.append(self._claim(
+                "Keep sensitive-data filtering and human approval as release gates.",
+                risk_ids,
+            ))
+
+        result = {
+            "engagement_id": engagement.engagement_id,
+            "status": "recommendation_ready",
+            "decision_question": engagement.decision_question,
+            "executive_decision": decision,
+            "confidence": "medium",
+            "findings": findings,
+            "options": [
+                self._claim("Keep the current manual workflow and continue measuring the baseline.", key_ids),
+                self._claim("Run a narrow assistive pilot for repetitive intents; recommended.", key_ids),
+                self._claim(
+                    "Fully automate replies; rejected because current evidence does not support that risk.",
+                    key_ids + risk_ids,
+                ),
+            ],
+            "recommendations": recommendations,
+            "risks": risks,
+            "assumptions": [
+                "Synthetic records are directionally representative of the demonstration scenario.",
+                "The pilot will not send customer replies without an authorized reviewer.",
+            ],
+            "pilot_plan": [
+                {"days": "1-5", "action": "Confirm baseline definitions, approved intents and privacy gate."},
+                {"days": "6-15", "action": "Run shadow-mode suggestions against synthetic or approved test cases."},
+                {"days": "16-25", "action": "Review exceptions, false routing and reviewer overrides."},
+                {"days": "26-30", "action": "Compare against the baseline and make a human go/no-go decision."},
+            ],
+            "success_measures": [
+                "Median first-response time for the scoped intents",
+                "Reviewer acceptance and override rate",
+                "Privacy or policy violations (target: zero)",
+            ],
+            "constraints": list(engagement.constraints),
+            "ignored_unverified_evidence": ignored,
+            "evidence_register": [self._evidence_record(item) for item in engagement.evidence],
+            "governance": {
+                "human_approval_required": True,
+                "autonomous_customer_action": False,
+                "synthetic_public_data": True,
+            },
+        }
+        result["citation_coverage"] = self._citation_coverage(result)
+        return result
+
+    def _insufficient(
+        self,
+        engagement: ConsultingEngagement,
+        usable: list[EvidenceItem],
+        ignored: list[str],
+        missing: list[str],
+    ) -> dict[str, Any]:
+        result = {
+            "engagement_id": engagement.engagement_id,
+            "status": "insufficient_evidence",
+            "decision_question": engagement.decision_question,
+            "executive_decision": "No recommendation issued.",
+            "confidence": "none",
+            "findings": [self._claim(item.claim, [item.evidence_id]) for item in usable],
+            "options": [],
+            "recommendations": [],
+            "risks": [],
+            "missing_evidence": missing,
+            "ignored_unverified_evidence": ignored,
+            "evidence_register": [self._evidence_record(item) for item in engagement.evidence],
+            "governance": {"human_approval_required": True, "autonomous_customer_action": False},
+        }
+        result["citation_coverage"] = self._citation_coverage(result)
+        return result
+
+    def _risks(self, evidence: list[EvidenceItem]) -> list[dict[str, Any]]:
+        privacy = [item for item in evidence if item.metric == "sensitive_data_risk"]
+        if not privacy:
+            return []
+        return [self._claim(
+            "Customer messages may contain sensitive data, so raw text must not enter an uncontrolled model path.",
+            [item.evidence_id for item in privacy],
+        )]
+
+    @staticmethod
+    def _claim(text: str, evidence_ids: list[str]) -> dict[str, Any]:
+        return {"claim": text, "evidence_ids": evidence_ids}
+
+    @staticmethod
+    def _evidence_record(item: EvidenceItem) -> dict[str, Any]:
+        return {
+            "evidence_id": item.evidence_id,
+            "title": item.title,
+            "source_type": item.source_type,
+            "collected_at": item.collected_at,
+            "claim": item.claim,
+            "metric": item.metric,
+            "value": item.value,
+            "unit": item.unit,
+            "reliability": item.reliability,
+        }
+
+    @staticmethod
+    def _citation_coverage(result: dict[str, Any]) -> dict[str, Any]:
+        claims = []
+        for field in ("findings", "options", "recommendations", "risks"):
+            claims.extend(result.get(field, []))
+        cited = sum(bool(item.get("evidence_ids")) for item in claims)
+        return {
+            "cited_claims": cited,
+            "total_claims": len(claims),
+            "percentage": round(cited / len(claims) * 100, 1) if claims else 100.0,
+        }
