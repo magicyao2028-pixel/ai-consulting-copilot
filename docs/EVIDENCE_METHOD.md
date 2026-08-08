@@ -10,7 +10,15 @@ These labels describe input governance, not independent auditing by the program.
 
 ## Decision gate
 
-v0.1 requires three metrics: monthly support volume, repetitive-contact share and first-response hours. A pilot recommendation is only available when all three are usable. The reference thresholds are 1,000 contacts, 40 percent repetitive share and eight response hours.
+v0.2 requires three metrics: monthly support volume, repetitive-contact share and first-response hours. A pilot recommendation is only available when all three are usable. The reference thresholds are 1,000 contacts, 40 percent repetitive share and eight response hours.
+
+## Freshness gate
+
+The engagement supplies an explicit `analysis_date`. Current prototype windows are 60 days for internal records, 90 for interviews, 365 for policies and 180 for external benchmarks. Future-dated and stale items remain visible in the evidence register but cannot support a decision.
+
+## Contradiction gate
+
+Current eligible items for the same metric conflict when their units differ or their numeric spread exceeds 10 percent of the largest absolute value. A material conflict produces `evidence_conflict` and no recommendation. Values inside tolerance are resolved deterministically by reliability, collection date and evidence ID.
 
 ## Citation control
 

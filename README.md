@@ -13,13 +13,15 @@ This portfolio edition documents an AI-application and Agent-product practice ex
 
 ## Business problem
 
-Small and medium-sized businesses often discuss AI pilots with incomplete baselines, vendor claims and unclear release gates. A polished report can still be unreliable when readers cannot trace a recommendation to its source. This v0.1 prototype therefore:
+Small and medium-sized businesses often discuss AI pilots with incomplete baselines, vendor claims and unclear release gates. A polished report can still be unreliable when readers cannot trace a recommendation to its source. This v0.2 prototype therefore:
 
 - validates an engagement and evidence register;
 - separates verified, indicative and unverified evidence;
 - checks three minimum business metrics before recommending a pilot;
 - attaches evidence IDs to every finding, option, risk and recommendation;
 - excludes unverified vendor claims from decision logic;
+- excludes stale and future-dated evidence using source-specific age limits;
+- blocks recommendations when current metric values materially conflict;
 - abstains when required evidence is missing;
 - produces a human-governed 30-day pilot memo in JSON and Markdown.
 
@@ -30,8 +32,8 @@ Small and medium-sized businesses often discuss AI pilots with incomplete baseli
 | AI product discovery | [PRD](docs/PRD.md), decision owner, constraints and release gate |
 | Consulting workflow | Evidence intake -> quality gate -> findings -> options -> recommendation -> pilot plan |
 | Grounded output | 100% claim-citation coverage in the synthetic reference case |
-| Governance | Unverified-evidence exclusion, insufficient-evidence abstention and human approval |
-| Engineering | Typed Python package, CLI, seven tests, CI and reproducible reports |
+| Governance | Reliability, freshness, contradiction and insufficient-evidence gates plus human approval |
+| Engineering | Typed Python package, CLI, 13 tests, CI and reproducible reports |
 | Product communication | Zero-cost [browser case page](site/) and executive decision memo |
 
 ## Workflow
@@ -39,7 +41,9 @@ Small and medium-sized businesses often discuss AI pilots with incomplete baseli
 ```mermaid
 flowchart LR
     I[Engagement JSON] --> V[Validate evidence]
-    V --> Q{Minimum metrics present?}
+    V --> F{Current and consistent?}
+    F -->|No| A[Abstain and request reconciliation]
+    F -->|Yes| Q{Minimum metrics present?}
     Q -->|No| A[Abstain and request evidence]
     Q -->|Yes| F[Build cited findings]
     F --> O[Compare options]
@@ -47,7 +51,7 @@ flowchart LR
     R --> H[Human go or no-go]
 ```
 
-The current implementation is deterministic. It is an Agent-style application workflow because it coordinates evidence validation, quality gates, decision rules, citations and report generation; it is not presented as an autonomous consultant or an LLM.
+The current implementation is deterministic. It is an Agent-style application workflow because it coordinates reliability, freshness, contradiction and completeness gates before decision rules, citations and report generation; it is not presented as an autonomous consultant or an LLM.
 
 ## Quick start
 
@@ -69,7 +73,7 @@ PYTHONPATH=src python -m consulting_copilot.cli data/sample_engagement.json \
 
 ## Reference case
 
-The synthetic case asks whether a regional retailer should run an AI-assisted customer-service pilot. Three verified baseline metrics cross the declared thresholds, while a fourth verified item establishes a privacy risk. One vendor marketing claim is deliberately marked unverified and excluded. The result recommends a 30-day assistive pilot with human approval rather than autonomous replies.
+The synthetic case asks whether a regional retailer should run an AI-assisted customer-service pilot. Three verified baseline metrics cross the declared thresholds, while a fourth verified item establishes a privacy risk. One vendor claim is unverified and one legacy internal record is stale; both remain visible in the register but are excluded from decision logic. The result recommends a 30-day assistive pilot with human approval rather than autonomous replies.
 
 The 100% citation figure means every generated claim object in this engineered sample has at least one evidence ID. It is not a claim that the recommendation is universally correct or validated in a real company.
 
@@ -78,6 +82,7 @@ The 100% citation figure means every generated claim object in this engineered s
 - Public evidence and business figures are synthetic.
 - Rules and thresholds are illustrative, not universal consulting standards.
 - Evidence reliability labels are supplied by the input and are not independently audited.
+- Freshness windows and the 10% contradiction tolerance are explicit prototype rules, not universal standards.
 - The workflow does not search the web, interview staff or connect to company systems.
 - It does not forecast ROI, approve spending or execute the pilot.
 - There is no LLM, database, authentication, concurrent service or production deployment.

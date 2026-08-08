@@ -1,5 +1,6 @@
 {
   "engagement_id": "SYNTH-CONSULT-001",
+  "analysis_date": "2026-08-08",
   "status": "recommendation_ready",
   "decision_question": "Should a regional retailer run an AI-assisted customer-service pilot?",
   "executive_decision": "Run a 30-day assistive customer-service pilot with human approval gates.",
@@ -110,6 +111,11 @@
   "ignored_unverified_evidence": [
     "E-05"
   ],
+  "stale_evidence": [
+    "E-06"
+  ],
+  "future_dated_evidence": [],
+  "evidence_conflicts": [],
   "evidence_register": [
     {
       "evidence_id": "E-01",
@@ -120,7 +126,14 @@
       "metric": "monthly_support_volume",
       "value": 4200.0,
       "unit": "contacts/month",
-      "reliability": "verified"
+      "reliability": "verified",
+      "freshness": {
+        "age_days": 8,
+        "max_age_days": 60,
+        "freshness_status": "current",
+        "eligible_for_decision": true,
+        "exclusion_reasons": []
+      }
     },
     {
       "evidence_id": "E-02",
@@ -131,7 +144,14 @@
       "metric": "repetitive_contact_share_pct",
       "value": 61.0,
       "unit": "percent",
-      "reliability": "verified"
+      "reliability": "verified",
+      "freshness": {
+        "age_days": 8,
+        "max_age_days": 60,
+        "freshness_status": "current",
+        "eligible_for_decision": true,
+        "exclusion_reasons": []
+      }
     },
     {
       "evidence_id": "E-03",
@@ -142,7 +162,14 @@
       "metric": "first_response_hours",
       "value": 11.8,
       "unit": "hours",
-      "reliability": "verified"
+      "reliability": "verified",
+      "freshness": {
+        "age_days": 8,
+        "max_age_days": 60,
+        "freshness_status": "current",
+        "eligible_for_decision": true,
+        "exclusion_reasons": []
+      }
     },
     {
       "evidence_id": "E-04",
@@ -153,7 +180,14 @@
       "metric": "sensitive_data_risk",
       "value": 1.0,
       "unit": "risk_flag",
-      "reliability": "verified"
+      "reliability": "verified",
+      "freshness": {
+        "age_days": 10,
+        "max_age_days": 365,
+        "freshness_status": "current",
+        "eligible_for_decision": true,
+        "exclusion_reasons": []
+      }
     },
     {
       "evidence_id": "E-05",
@@ -164,7 +198,36 @@
       "metric": "vendor_cost_reduction_pct",
       "value": 40.0,
       "unit": "percent",
-      "reliability": "unverified"
+      "reliability": "unverified",
+      "freshness": {
+        "age_days": 19,
+        "max_age_days": 180,
+        "freshness_status": "current",
+        "eligible_for_decision": false,
+        "exclusion_reasons": [
+          "unverified"
+        ]
+      }
+    },
+    {
+      "evidence_id": "E-06",
+      "title": "Synthetic legacy workflow observation",
+      "source_type": "internal_record",
+      "collected_at": "2025-12-01",
+      "claim": "An older snapshot recorded a 48-hour manual resolution cycle.",
+      "metric": "legacy_resolution_hours",
+      "value": 48.0,
+      "unit": "hours",
+      "reliability": "indicative",
+      "freshness": {
+        "age_days": 250,
+        "max_age_days": 60,
+        "freshness_status": "stale",
+        "eligible_for_decision": false,
+        "exclusion_reasons": [
+          "stale"
+        ]
+      }
     }
   ],
   "governance": {

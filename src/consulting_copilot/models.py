@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass
+from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -50,6 +51,10 @@ class EvidenceItem:
         )
         if not all((item.evidence_id, item.title, item.collected_at, item.claim)):
             raise ValueError("Evidence text fields must not be blank")
+        try:
+            date.fromisoformat(item.collected_at)
+        except ValueError as exc:
+            raise ValueError("collected_at must use YYYY-MM-DD") from exc
         if (item.metric is None) != (item.value is None):
             raise ValueError("metric and value must be supplied together")
         return item
@@ -61,6 +66,7 @@ class ConsultingEngagement:
     decision_question: str
     company_profile: str
     decision_owner: str
+    analysis_date: str
     horizon_days: int
     constraints: tuple[str, ...]
     evidence: tuple[EvidenceItem, ...]
@@ -85,13 +91,18 @@ class ConsultingEngagement:
             decision_question=str(value.get("decision_question", "")).strip(),
             company_profile=str(context.get("company_profile", "")).strip(),
             decision_owner=str(context.get("decision_owner", "")).strip(),
+            analysis_date=str(context.get("analysis_date", "")).strip(),
             horizon_days=int(context.get("horizon_days", 0)),
             constraints=tuple(item.strip() for item in constraints if item.strip()),
             evidence=evidence,
         )
         if not all((engagement.engagement_id, engagement.decision_question, engagement.company_profile,
-                    engagement.decision_owner)):
+                    engagement.decision_owner, engagement.analysis_date)):
             raise ValueError("Engagement identity, question and context fields must not be blank")
+        try:
+            date.fromisoformat(engagement.analysis_date)
+        except ValueError as exc:
+            raise ValueError("analysis_date must use YYYY-MM-DD") from exc
         if engagement.horizon_days < 1:
             raise ValueError("horizon_days must be at least 1")
         return engagement

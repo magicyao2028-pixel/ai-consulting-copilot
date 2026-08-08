@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ai-consulting-copilot"
-version = "0.1.0"
+version = "0.2.0"
 description = "Offline evidence-backed decision memo workflow for small-business AI pilots."
 readme = "README.md"
 requires-python = ">=3.10"

@@ -10,6 +10,7 @@ def render_markdown(result: dict[str, Any]) -> str:
         f"**Question:** {result['decision_question']}",
         f"**Status:** {result['status']}",
         f"**Confidence:** {result['confidence']}",
+        f"**Evidence as of:** {result['analysis_date']}",
         "",
         "## Executive decision",
         "",
@@ -26,6 +27,11 @@ def render_markdown(result: dict[str, Any]) -> str:
     if result.get("missing_evidence"):
         lines.extend(["", "## Missing evidence", ""])
         lines.extend(f"- {item}" for item in result["missing_evidence"])
+    if result.get("evidence_conflicts"):
+        lines.extend(["", "## Blocking evidence conflicts", ""])
+        for conflict in result["evidence_conflicts"]:
+            citations = " ".join(f"[{item}]" for item in conflict["evidence_ids"])
+            lines.append(f"- **{conflict['metric']}:** {conflict['reason']} {citations}")
 
     coverage = result["citation_coverage"]
     lines.extend([
@@ -35,15 +41,19 @@ def render_markdown(result: dict[str, Any]) -> str:
         f"- Citation coverage: {coverage['cited_claims']}/{coverage['total_claims']} "
         f"({coverage['percentage']}%)",
         f"- Ignored unverified evidence: {', '.join(result.get('ignored_unverified_evidence', [])) or 'none'}",
+        f"- Stale evidence: {', '.join(result.get('stale_evidence', [])) or 'none'}",
+        f"- Future-dated evidence: {', '.join(result.get('future_dated_evidence', [])) or 'none'}",
         "- Human approval required: yes",
         "",
         "## Evidence register",
         "",
     ])
     for item in result["evidence_register"]:
+        freshness = item["freshness"]
         lines.append(
             f"- **[{item['evidence_id']}] {item['title']}** — {item['claim']} "
-            f"({item['source_type']}, {item['reliability']}, {item['collected_at']})"
+            f"({item['source_type']}, {item['reliability']}, {item['collected_at']}, "
+            f"{freshness['freshness_status']}, age {freshness['age_days']} days)"
         )
     lines.extend(["", "_Public demonstration data is synthetic. This memo is not a production outcome claim._", ""])
     return "\n".join(lines)

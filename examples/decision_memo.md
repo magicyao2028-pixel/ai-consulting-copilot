@@ -3,6 +3,7 @@
 **Question:** Should a regional retailer run an AI-assisted customer-service pilot?
 **Status:** recommendation_ready
 **Confidence:** medium
+**Evidence as of:** 2026-08-08
 
 ## Executive decision
 
@@ -40,14 +41,17 @@ Run a 30-day assistive customer-service pilot with human approval gates.
 
 - Citation coverage: 9/9 (100.0%)
 - Ignored unverified evidence: E-05
+- Stale evidence: E-06
+- Future-dated evidence: none
 - Human approval required: yes
 
 ## Evidence register
 
-- **[E-01] Synthetic monthly support register** — The demonstration operation receives 4,200 support contacts per month. (internal_record, verified, 2026-07-31)
-- **[E-02] Synthetic intent review** — The three most repetitive intents represent 61 percent of contacts. (internal_record, verified, 2026-07-31)
-- **[E-03] Synthetic service baseline** — Median first response is 11.8 hours for the scoped channels. (internal_record, verified, 2026-07-31)
-- **[E-04] Synthetic privacy review** — Customer messages can contain payment-card fragments, email addresses and passwords. (policy, verified, 2026-07-29)
-- **[E-05] Unverified vendor marketing claim** — A vendor claims a 40 percent cost reduction without a reproducible method. (external_benchmark, unverified, 2026-07-20)
+- **[E-01] Synthetic monthly support register** — The demonstration operation receives 4,200 support contacts per month. (internal_record, verified, 2026-07-31, current, age 8 days)
+- **[E-02] Synthetic intent review** — The three most repetitive intents represent 61 percent of contacts. (internal_record, verified, 2026-07-31, current, age 8 days)
+- **[E-03] Synthetic service baseline** — Median first response is 11.8 hours for the scoped channels. (internal_record, verified, 2026-07-31, current, age 8 days)
+- **[E-04] Synthetic privacy review** — Customer messages can contain payment-card fragments, email addresses and passwords. (policy, verified, 2026-07-29, current, age 10 days)
+- **[E-05] Unverified vendor marketing claim** — A vendor claims a 40 percent cost reduction without a reproducible method. (external_benchmark, unverified, 2026-07-20, current, age 19 days)
+- **[E-06] Synthetic legacy workflow observation** — An older snapshot recorded a 48-hour manual resolution cycle. (internal_record, indicative, 2025-12-01, stale, age 250 days)
 
 _Public demonstration data is synthetic. This memo is not a production outcome claim._

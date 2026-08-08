@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Any
 
 from .models import ConsultingEngagement, EvidenceItem
+from .quality import assess_evidence, select_metrics
 
 
 REQUIRED_METRICS = {
@@ -16,13 +17,31 @@ class ConsultingCopilot:
     """Builds a deterministic, cited decision memo from structured evidence."""
 
     def analyze(self, engagement: ConsultingEngagement) -> dict[str, Any]:
-        usable = [item for item in engagement.evidence if item.reliability != "unverified"]
+        assessments = assess_evidence(engagement.evidence, engagement.analysis_date)
+        eligible = [
+            item for item in engagement.evidence
+            if assessments[item.evidence_id]["eligible_for_decision"]
+        ]
         ignored = [item.evidence_id for item in engagement.evidence if item.reliability == "unverified"]
-        metrics = {item.metric: item for item in usable if item.metric}
+        stale = [
+            item.evidence_id for item in engagement.evidence
+            if assessments[item.evidence_id]["freshness_status"] == "stale"
+        ]
+        future_dated = [
+            item.evidence_id for item in engagement.evidence
+            if assessments[item.evidence_id]["freshness_status"] == "future_dated"
+        ]
+        metrics, conflicts = select_metrics(engagement.evidence, assessments)
+        if conflicts:
+            return self._conflicted(
+                engagement, eligible, assessments, ignored, stale, future_dated, conflicts
+            )
         missing = sorted(REQUIRED_METRICS.difference(metrics))
 
         if missing:
-            return self._insufficient(engagement, usable, ignored, missing)
+            return self._insufficient(
+                engagement, eligible, assessments, ignored, stale, future_dated, missing
+            )
 
         volume = metrics["monthly_support_volume"]
         repetitive = metrics["repetitive_contact_share_pct"]
@@ -47,7 +66,7 @@ class ConsultingCopilot:
                 [response.evidence_id],
             ),
         ]
-        risks = self._risks(usable)
+        risks = self._risks(eligible)
         risk_ids = risks[0]["evidence_ids"] if risks else []
         decision = (
             "Run a 30-day assistive customer-service pilot with human approval gates."
@@ -63,6 +82,7 @@ class ConsultingCopilot:
 
         result = {
             "engagement_id": engagement.engagement_id,
+            "analysis_date": engagement.analysis_date,
             "status": "recommendation_ready",
             "decision_question": engagement.decision_question,
             "executive_decision": decision,
@@ -95,7 +115,13 @@ class ConsultingCopilot:
             ],
             "constraints": list(engagement.constraints),
             "ignored_unverified_evidence": ignored,
-            "evidence_register": [self._evidence_record(item) for item in engagement.evidence],
+            "stale_evidence": stale,
+            "future_dated_evidence": future_dated,
+            "evidence_conflicts": [],
+            "evidence_register": [
+                self._evidence_record(item, assessments[item.evidence_id])
+                for item in engagement.evidence
+            ],
             "governance": {
                 "human_approval_required": True,
                 "autonomous_customer_action": False,
@@ -108,23 +134,74 @@ class ConsultingCopilot:
     def _insufficient(
         self,
         engagement: ConsultingEngagement,
-        usable: list[EvidenceItem],
+        eligible: list[EvidenceItem],
+        assessments: dict[str, dict[str, Any]],
         ignored: list[str],
+        stale: list[str],
+        future_dated: list[str],
         missing: list[str],
     ) -> dict[str, Any]:
         result = {
             "engagement_id": engagement.engagement_id,
+            "analysis_date": engagement.analysis_date,
             "status": "insufficient_evidence",
             "decision_question": engagement.decision_question,
             "executive_decision": "No recommendation issued.",
             "confidence": "none",
-            "findings": [self._claim(item.claim, [item.evidence_id]) for item in usable],
+            "findings": [self._claim(item.claim, [item.evidence_id]) for item in eligible],
             "options": [],
             "recommendations": [],
             "risks": [],
             "missing_evidence": missing,
             "ignored_unverified_evidence": ignored,
-            "evidence_register": [self._evidence_record(item) for item in engagement.evidence],
+            "stale_evidence": stale,
+            "future_dated_evidence": future_dated,
+            "evidence_conflicts": [],
+            "evidence_register": [
+                self._evidence_record(item, assessments[item.evidence_id])
+                for item in engagement.evidence
+            ],
+            "governance": {"human_approval_required": True, "autonomous_customer_action": False},
+        }
+        result["citation_coverage"] = self._citation_coverage(result)
+        return result
+
+    def _conflicted(
+        self,
+        engagement: ConsultingEngagement,
+        eligible: list[EvidenceItem],
+        assessments: dict[str, dict[str, Any]],
+        ignored: list[str],
+        stale: list[str],
+        future_dated: list[str],
+        conflicts: list[dict[str, Any]],
+    ) -> dict[str, Any]:
+        conflict_ids = {evidence_id for item in conflicts for evidence_id in item["evidence_ids"]}
+        findings = [
+            self._claim(item.claim, [item.evidence_id])
+            for item in eligible
+            if item.evidence_id in conflict_ids
+        ]
+        result = {
+            "engagement_id": engagement.engagement_id,
+            "analysis_date": engagement.analysis_date,
+            "status": "evidence_conflict",
+            "decision_question": engagement.decision_question,
+            "executive_decision": "No recommendation issued until the conflicting evidence is reconciled.",
+            "confidence": "none",
+            "findings": findings,
+            "options": [],
+            "recommendations": [],
+            "risks": [],
+            "missing_evidence": [],
+            "ignored_unverified_evidence": ignored,
+            "stale_evidence": stale,
+            "future_dated_evidence": future_dated,
+            "evidence_conflicts": conflicts,
+            "evidence_register": [
+                self._evidence_record(item, assessments[item.evidence_id])
+                for item in engagement.evidence
+            ],
             "governance": {"human_approval_required": True, "autonomous_customer_action": False},
         }
         result["citation_coverage"] = self._citation_coverage(result)
@@ -144,7 +221,7 @@ class ConsultingCopilot:
         return {"claim": text, "evidence_ids": evidence_ids}
 
     @staticmethod
-    def _evidence_record(item: EvidenceItem) -> dict[str, Any]:
+    def _evidence_record(item: EvidenceItem, assessment: dict[str, Any]) -> dict[str, Any]:
         return {
             "evidence_id": item.evidence_id,
             "title": item.title,
@@ -155,6 +232,7 @@ class ConsultingCopilot:
             "value": item.value,
             "unit": item.unit,
             "reliability": item.reliability,
+            "freshness": assessment,
         }
 
     @staticmethod

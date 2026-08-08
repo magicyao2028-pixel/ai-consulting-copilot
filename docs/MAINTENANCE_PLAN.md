@@ -4,7 +4,7 @@ The initial repository is intentionally narrow. Each maintenance round must add 
 
 | Round | Planned capability | Status |
 | --- | --- | --- |
-| M1 | Contradiction detection and evidence freshness | Planned |
+| M1 | Contradiction detection and evidence freshness | Completed in v0.2 |
 | M2 | Interview-note normalization with human claim approval | Planned |
 | M3 | Configurable thresholds and scenario comparison | Planned |
 | M4 | Evidence lineage graph and richer citation tests | Planned |

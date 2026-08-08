@@ -2,7 +2,7 @@
 
 ## Product and user
 
-AI Consulting Copilot v0.1 supports an operations or transformation lead in a small or medium-sized business. It prepares a reviewable decision memo; it does not make or execute the decision.
+AI Consulting Copilot v0.2 supports an operations or transformation lead in a small or medium-sized business. It prepares a reviewable decision memo; it does not make or execute the decision.
 
 ## Problem
 
@@ -16,6 +16,8 @@ AI pilot discussions often mix internal facts, assumptions and vendor claims. De
 4. Produce cited findings, options, risks and recommendations.
 5. Produce a 30-day pilot plan and explicit governance gates.
 6. Abstain when a required metric is missing.
+7. Exclude stale and future-dated evidence using explicit source-specific windows.
+8. Stop recommendation when current evidence for one metric materially conflicts.
 
 ## Out of scope
 
@@ -26,4 +28,4 @@ AI pilot discussions often mix internal facts, assumptions and vendor claims. De
 
 ## Release gate
 
-The sample must pass all tests, use synthetic data, cite every generated claim, exclude `unverified` evidence from decision logic and issue no recommendation when a required metric is absent.
+The sample must pass all tests, use synthetic data, cite every generated claim, exclude unverified/stale/future evidence from decision logic and issue no recommendation when a required metric is absent or current evidence conflicts.
