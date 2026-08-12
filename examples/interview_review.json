@@ -1,0 +1,179 @@
+{
+  "engagement_id": "SYNTH-CONSULT-001",
+  "status": "human_review_recorded",
+  "reviewed_claims": [
+    {
+      "claim_id": "CLM-INT-OPS-001-S-01",
+      "candidate_claim": "Supervisors manually review every refund-related reply before it is sent.",
+      "claim_kind": "observation",
+      "topic": "approval workflow",
+      "metric": null,
+      "value": null,
+      "unit": null,
+      "source_note_id": "INT-OPS-001",
+      "source_statement_id": "S-01",
+      "source_role": "Synthetic Support Lead",
+      "collected_at": "2026-08-10",
+      "approval_status": "approve",
+      "eligible_for_evidence_register": true,
+      "review": {
+        "reviewer_id": "SYNTHETIC-HUMAN-REVIEWER",
+        "reviewed_at": "2026-08-12",
+        "decision": "approve",
+        "rationale": "The structured observation is clear enough to retain as indicative interview evidence."
+      }
+    },
+    {
+      "claim_id": "CLM-INT-OPS-001-S-02",
+      "candidate_claim": "Roughly 18 percent of sampled tickets required a supervisor handoff.",
+      "claim_kind": "observation",
+      "topic": "handoff baseline",
+      "metric": "supervisor_handoff_share_pct",
+      "value": 18.0,
+      "unit": "percent",
+      "source_note_id": "INT-OPS-001",
+      "source_statement_id": "S-02",
+      "source_role": "Synthetic Support Lead",
+      "collected_at": "2026-08-10",
+      "approval_status": "approve",
+      "eligible_for_evidence_register": true,
+      "review": {
+        "reviewer_id": "SYNTHETIC-HUMAN-REVIEWER",
+        "reviewed_at": "2026-08-12",
+        "decision": "approve",
+        "rationale": "Retain the synthetic sampled value as indicative, not verified, evidence."
+      }
+    },
+    {
+      "claim_id": "CLM-INT-OPS-001-S-03",
+      "candidate_claim": "The team feels that an AI assistant would make every reply faster.",
+      "claim_kind": "opinion",
+      "topic": "expected benefit",
+      "metric": null,
+      "value": null,
+      "unit": null,
+      "source_note_id": "INT-OPS-001",
+      "source_statement_id": "S-03",
+      "source_role": "Synthetic Support Lead",
+      "collected_at": "2026-08-10",
+      "approval_status": "reject",
+      "eligible_for_evidence_register": false,
+      "review": {
+        "reviewer_id": "SYNTHETIC-HUMAN-REVIEWER",
+        "reviewed_at": "2026-08-12",
+        "decision": "reject",
+        "rationale": "This is an expectation without measured support."
+      }
+    },
+    {
+      "claim_id": "CLM-INT-RISK-002-S-01",
+      "candidate_claim": "The current review checklist does not record why a suggested reply was overridden.",
+      "claim_kind": "observation",
+      "topic": "auditability",
+      "metric": null,
+      "value": null,
+      "unit": null,
+      "source_note_id": "INT-RISK-002",
+      "source_statement_id": "S-01",
+      "source_role": "Synthetic Compliance Reviewer",
+      "collected_at": "2026-08-10",
+      "approval_status": "approve",
+      "eligible_for_evidence_register": true,
+      "review": {
+        "reviewer_id": "SYNTHETIC-HUMAN-REVIEWER",
+        "reviewed_at": "2026-08-12",
+        "decision": "approve",
+        "rationale": "The observation describes a specific current control gap."
+      }
+    },
+    {
+      "claim_id": "CLM-INT-RISK-002-S-02",
+      "candidate_claim": "Please compare override reasons by intent before expanding the pilot.",
+      "claim_kind": "request",
+      "topic": "evaluation request",
+      "metric": null,
+      "value": null,
+      "unit": null,
+      "source_note_id": "INT-RISK-002",
+      "source_statement_id": "S-02",
+      "source_role": "Synthetic Compliance Reviewer",
+      "collected_at": "2026-08-10",
+      "approval_status": "needs_clarification",
+      "eligible_for_evidence_register": false,
+      "review": {
+        "reviewer_id": "SYNTHETIC-HUMAN-REVIEWER",
+        "reviewed_at": "2026-08-12",
+        "decision": "needs_clarification",
+        "rationale": "This is a research request rather than evidence of current performance."
+      }
+    }
+  ],
+  "evidence_register": [
+    {
+      "evidence_id": "INT-CLM-INT-OPS-001-S-01",
+      "title": "Approved synthetic interview observation: approval workflow",
+      "source_type": "interview",
+      "collected_at": "2026-08-10",
+      "claim": "Supervisors manually review every refund-related reply before it is sent.",
+      "metric": null,
+      "value": null,
+      "unit": null,
+      "reliability": "indicative",
+      "provenance": {
+        "claim_id": "CLM-INT-OPS-001-S-01",
+        "source_note_id": "INT-OPS-001",
+        "source_statement_id": "S-01",
+        "reviewer_id": "SYNTHETIC-HUMAN-REVIEWER",
+        "reviewed_at": "2026-08-12"
+      }
+    },
+    {
+      "evidence_id": "INT-CLM-INT-OPS-001-S-02",
+      "title": "Approved synthetic interview observation: handoff baseline",
+      "source_type": "interview",
+      "collected_at": "2026-08-10",
+      "claim": "Roughly 18 percent of sampled tickets required a supervisor handoff.",
+      "metric": "supervisor_handoff_share_pct",
+      "value": 18.0,
+      "unit": "percent",
+      "reliability": "indicative",
+      "provenance": {
+        "claim_id": "CLM-INT-OPS-001-S-02",
+        "source_note_id": "INT-OPS-001",
+        "source_statement_id": "S-02",
+        "reviewer_id": "SYNTHETIC-HUMAN-REVIEWER",
+        "reviewed_at": "2026-08-12"
+      }
+    },
+    {
+      "evidence_id": "INT-CLM-INT-RISK-002-S-01",
+      "title": "Approved synthetic interview observation: auditability",
+      "source_type": "interview",
+      "collected_at": "2026-08-10",
+      "claim": "The current review checklist does not record why a suggested reply was overridden.",
+      "metric": null,
+      "value": null,
+      "unit": null,
+      "reliability": "indicative",
+      "provenance": {
+        "claim_id": "CLM-INT-RISK-002-S-01",
+        "source_note_id": "INT-RISK-002",
+        "source_statement_id": "S-01",
+        "reviewer_id": "SYNTHETIC-HUMAN-REVIEWER",
+        "reviewed_at": "2026-08-12"
+      }
+    }
+  ],
+  "summary": {
+    "candidate_claims": 5,
+    "reviewed_claims": 5,
+    "approved_evidence_items": 3,
+    "pending_claims": 0
+  },
+  "governance": {
+    "human_approval_required": true,
+    "automatic_evidence_promotion": false,
+    "approved_observations_only": true,
+    "synthetic_public_data": true
+  }
+}

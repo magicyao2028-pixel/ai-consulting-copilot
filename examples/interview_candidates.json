@@ -1,0 +1,92 @@
+{
+  "engagement_id": "SYNTH-CONSULT-001",
+  "status": "awaiting_human_review",
+  "candidate_claims": [
+    {
+      "claim_id": "CLM-INT-OPS-001-S-01",
+      "candidate_claim": "Supervisors manually review every refund-related reply before it is sent.",
+      "claim_kind": "observation",
+      "topic": "approval workflow",
+      "metric": null,
+      "value": null,
+      "unit": null,
+      "source_note_id": "INT-OPS-001",
+      "source_statement_id": "S-01",
+      "source_role": "Synthetic Support Lead",
+      "collected_at": "2026-08-10",
+      "approval_status": "pending_human_approval",
+      "eligible_for_evidence_register": false
+    },
+    {
+      "claim_id": "CLM-INT-OPS-001-S-02",
+      "candidate_claim": "Roughly 18 percent of sampled tickets required a supervisor handoff.",
+      "claim_kind": "observation",
+      "topic": "handoff baseline",
+      "metric": "supervisor_handoff_share_pct",
+      "value": 18.0,
+      "unit": "percent",
+      "source_note_id": "INT-OPS-001",
+      "source_statement_id": "S-02",
+      "source_role": "Synthetic Support Lead",
+      "collected_at": "2026-08-10",
+      "approval_status": "pending_human_approval",
+      "eligible_for_evidence_register": false
+    },
+    {
+      "claim_id": "CLM-INT-OPS-001-S-03",
+      "candidate_claim": "The team feels that an AI assistant would make every reply faster.",
+      "claim_kind": "opinion",
+      "topic": "expected benefit",
+      "metric": null,
+      "value": null,
+      "unit": null,
+      "source_note_id": "INT-OPS-001",
+      "source_statement_id": "S-03",
+      "source_role": "Synthetic Support Lead",
+      "collected_at": "2026-08-10",
+      "approval_status": "pending_human_approval",
+      "eligible_for_evidence_register": false
+    },
+    {
+      "claim_id": "CLM-INT-RISK-002-S-01",
+      "candidate_claim": "The current review checklist does not record why a suggested reply was overridden.",
+      "claim_kind": "observation",
+      "topic": "auditability",
+      "metric": null,
+      "value": null,
+      "unit": null,
+      "source_note_id": "INT-RISK-002",
+      "source_statement_id": "S-01",
+      "source_role": "Synthetic Compliance Reviewer",
+      "collected_at": "2026-08-10",
+      "approval_status": "pending_human_approval",
+      "eligible_for_evidence_register": false
+    },
+    {
+      "claim_id": "CLM-INT-RISK-002-S-02",
+      "candidate_claim": "Please compare override reasons by intent before expanding the pilot.",
+      "claim_kind": "request",
+      "topic": "evaluation request",
+      "metric": null,
+      "value": null,
+      "unit": null,
+      "source_note_id": "INT-RISK-002",
+      "source_statement_id": "S-02",
+      "source_role": "Synthetic Compliance Reviewer",
+      "collected_at": "2026-08-10",
+      "approval_status": "pending_human_approval",
+      "eligible_for_evidence_register": false
+    }
+  ],
+  "evidence_register": [],
+  "summary": {
+    "notes_normalized": 2,
+    "candidate_claims": 5,
+    "approved_evidence_items": 0
+  },
+  "governance": {
+    "human_approval_required": true,
+    "automatic_evidence_promotion": false,
+    "synthetic_public_data": true
+  }
+}

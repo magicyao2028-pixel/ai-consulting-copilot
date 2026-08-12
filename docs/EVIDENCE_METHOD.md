@@ -10,7 +10,11 @@ These labels describe input governance, not independent auditing by the program.
 
 ## Decision gate
 
-v0.2 requires three metrics: monthly support volume, repetitive-contact share and first-response hours. A pilot recommendation is only available when all three are usable. The reference thresholds are 1,000 contacts, 40 percent repetitive share and eight response hours.
+v0.3 requires three metrics: monthly support volume, repetitive-contact share and first-response hours. A pilot recommendation is only available when all three are usable. The reference thresholds are 1,000 contacts, 40 percent repetitive share and eight response hours.
+
+## Interview claim gate
+
+Structured synthetic statements are classified as observations, opinions or requests. Normalization creates review candidates only. An attributable human decision may promote an observation into the register as `indicative`; opinions and requests cannot be promoted by this workflow. Approved interview metrics then pass through the normal freshness and contradiction controls.
 
 ## Freshness gate
 

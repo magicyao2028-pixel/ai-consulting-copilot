@@ -2,7 +2,7 @@
 
 ## Product and user
 
-AI Consulting Copilot v0.2 supports an operations or transformation lead in a small or medium-sized business. It prepares a reviewable decision memo; it does not make or execute the decision.
+AI Consulting Copilot v0.3 supports an operations or transformation lead in a small or medium-sized business. It prepares a reviewable decision memo; it does not make or execute the decision.
 
 ## Problem
 
@@ -18,14 +18,17 @@ AI pilot discussions often mix internal facts, assumptions and vendor claims. De
 6. Abstain when a required metric is missing.
 7. Exclude stale and future-dated evidence using explicit source-specific windows.
 8. Stop recommendation when current evidence for one metric materially conflicts.
+9. Normalize consented synthetic interview statements into pending candidate claims.
+10. Require a named reviewer, decision date and rationale before an observation enters the evidence register.
+11. Prevent opinions and requests from being promoted as evidence.
 
 ## Out of scope
 
-- autonomous research, interviews or web browsing;
+- interview recording, transcription, autonomous research or web browsing;
 - real company data, financial approval or ROI guarantees;
 - automatic procurement, customer communication or workflow execution;
 - independent verification of input reliability labels.
 
 ## Release gate
 
-The sample must pass all tests, use synthetic data, cite every generated claim, exclude unverified/stale/future evidence from decision logic and issue no recommendation when a required metric is absent or current evidence conflicts.
+The sample must pass all tests, use synthetic data, cite every generated claim, keep normalized candidates outside the evidence register until human approval, exclude unverified/stale/future evidence from decision logic and issue no recommendation when a required metric is absent or current evidence conflicts.

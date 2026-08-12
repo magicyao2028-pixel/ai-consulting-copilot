@@ -13,7 +13,7 @@ This portfolio edition documents an AI-application and Agent-product practice ex
 
 ## Business problem
 
-Small and medium-sized businesses often discuss AI pilots with incomplete baselines, vendor claims and unclear release gates. A polished report can still be unreliable when readers cannot trace a recommendation to its source. This v0.2 prototype therefore:
+Small and medium-sized businesses often discuss AI pilots with incomplete baselines, vendor claims and unclear release gates. A polished report can still be unreliable when readers cannot trace a recommendation to its source. This v0.3 prototype therefore:
 
 - validates an engagement and evidence register;
 - separates verified, indicative and unverified evidence;
@@ -22,6 +22,8 @@ Small and medium-sized businesses often discuss AI pilots with incomplete baseli
 - excludes unverified vendor claims from decision logic;
 - excludes stale and future-dated evidence using source-specific age limits;
 - blocks recommendations when current metric values materially conflict;
+- normalizes structured synthetic interview notes into candidate claims without treating them as evidence;
+- requires an attributable human decision before an observation can enter the evidence register;
 - abstains when required evidence is missing;
 - produces a human-governed 30-day pilot memo in JSON and Markdown.
 
@@ -32,8 +34,8 @@ Small and medium-sized businesses often discuss AI pilots with incomplete baseli
 | AI product discovery | [PRD](docs/PRD.md), decision owner, constraints and release gate |
 | Consulting workflow | Evidence intake -> quality gate -> findings -> options -> recommendation -> pilot plan |
 | Grounded output | 100% claim-citation coverage in the synthetic reference case |
-| Governance | Reliability, freshness, contradiction and insufficient-evidence gates plus human approval |
-| Engineering | Typed Python package, CLI, 13 tests, CI and reproducible reports |
+| Governance | Claim-kind review, reliability, freshness, contradiction and insufficient-evidence gates |
+| Engineering | Typed Python package, three CLIs, 21 tests, CI and reproducible reports |
 | Product communication | Zero-cost [browser case page](site/) and executive decision memo |
 
 ## Workflow
@@ -45,13 +47,15 @@ flowchart LR
     F -->|No| A[Abstain and request reconciliation]
     F -->|Yes| Q{Minimum metrics present?}
     Q -->|No| A[Abstain and request evidence]
-    Q -->|Yes| F[Build cited findings]
-    F --> O[Compare options]
+    Q -->|Yes| B[Build cited findings]
+    B --> O[Compare options]
     O --> R[Recommend bounded pilot]
     R --> H[Human go or no-go]
 ```
 
 The current implementation is deterministic. It is an Agent-style application workflow because it coordinates reliability, freshness, contradiction and completeness gates before decision rules, citations and report generation; it is not presented as an autonomous consultant or an LLM.
+
+Interview intake follows a separate controlled path: `notes -> candidate claims -> human review -> approved observations -> evidence quality gates`. Normalization never promotes evidence automatically.
 
 ## Quick start
 
@@ -60,6 +64,8 @@ Requirements: Python 3.10 or later. There is no third-party runtime dependency.
 ```bash
 python -m pip install -e .
 consulting-copilot data/sample_engagement.json
+consulting-interview-normalize data/sample_interview_notes.json --output examples/interview_candidates.json
+consulting-claim-review examples/interview_candidates.json data/sample_claim_review.json --output examples/interview_review.json
 python -m unittest discover -s tests -v
 ```
 
@@ -77,13 +83,15 @@ The synthetic case asks whether a regional retailer should run an AI-assisted cu
 
 The 100% citation figure means every generated claim object in this engineered sample has at least one evidence ID. It is not a claim that the recommendation is universally correct or validated in a real company.
 
+The synthetic interview fixture produces five candidate claims. A separate review fixture approves three observations, rejects one opinion and requests clarification on one research request. Approved records remain `indicative` and must still pass the same freshness and contradiction gates as every other evidence source.
+
 ## Honest boundaries
 
 - Public evidence and business figures are synthetic.
 - Rules and thresholds are illustrative, not universal consulting standards.
 - Evidence reliability labels are supplied by the input and are not independently audited.
 - Freshness windows and the 10% contradiction tolerance are explicit prototype rules, not universal standards.
-- The workflow does not search the web, interview staff or connect to company systems.
+- The workflow does not record or transcribe interviews, search the web or connect to company systems; it accepts structured synthetic notes only.
 - It does not forecast ROI, approve spending or execute the pilot.
 - There is no LLM, database, authentication, concurrent service or production deployment.
 
@@ -92,6 +100,7 @@ The 100% citation figure means every generated claim object in this engineered s
 - [Product requirements](docs/PRD.md)
 - [Architecture](docs/ARCHITECTURE.md)
 - [Evidence method](docs/EVIDENCE_METHOD.md)
+- [Interview claim review](docs/INTERVIEW_CLAIM_REVIEW.md)
 - [Security and governance](docs/SECURITY.md)
 - [Maintenance plan](docs/MAINTENANCE_PLAN.md)
 - [Current handoff](HANDOFF.md)

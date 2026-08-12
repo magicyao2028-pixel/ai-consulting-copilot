@@ -1,0 +1,11 @@
+{
+  "reviewer_id": "SYNTHETIC-HUMAN-REVIEWER",
+  "reviewed_at": "2026-08-12",
+  "decisions": [
+    {"claim_id": "CLM-INT-OPS-001-S-01", "decision": "approve", "rationale": "The structured observation is clear enough to retain as indicative interview evidence."},
+    {"claim_id": "CLM-INT-OPS-001-S-02", "decision": "approve", "rationale": "Retain the synthetic sampled value as indicative, not verified, evidence."},
+    {"claim_id": "CLM-INT-OPS-001-S-03", "decision": "reject", "rationale": "This is an expectation without measured support."},
+    {"claim_id": "CLM-INT-RISK-002-S-01", "decision": "approve", "rationale": "The observation describes a specific current control gap."},
+    {"claim_id": "CLM-INT-RISK-002-S-02", "decision": "needs_clarification", "rationale": "This is a research request rather than evidence of current performance."}
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "engagement_id": "SYNTH-CONSULT-001",
+  "notes": [
+    {
+      "note_id": "INT-OPS-001",
+      "conducted_at": "2026-08-10",
+      "participant_role": "Synthetic Support Lead",
+      "synthetic": true,
+      "consent_for_analysis": true,
+      "statements": [
+        {"statement_id": "S-01", "text": "Supervisors manually review every refund-related reply before it is sent.", "claim_kind": "observation", "topic": "approval workflow"},
+        {"statement_id": "S-02", "text": "Roughly 18 percent of sampled tickets required a supervisor handoff.", "claim_kind": "observation", "topic": "handoff baseline", "metric": "supervisor_handoff_share_pct", "value": 18, "unit": "percent"},
+        {"statement_id": "S-03", "text": "The team feels that an AI assistant would make every reply faster.", "claim_kind": "opinion", "topic": "expected benefit"}
+      ]
+    },
+    {
+      "note_id": "INT-RISK-002",
+      "conducted_at": "2026-08-10",
+      "participant_role": "Synthetic Compliance Reviewer",
+      "synthetic": true,
+      "consent_for_analysis": true,
+      "statements": [
+        {"statement_id": "S-01", "text": "The current review checklist does not record why a suggested reply was overridden.", "claim_kind": "observation", "topic": "auditability"},
+        {"statement_id": "S-02", "text": "Please compare override reasons by intent before expanding the pilot.", "claim_kind": "request", "topic": "evaluation request"}
+      ]
+    }
+  ]
+}
