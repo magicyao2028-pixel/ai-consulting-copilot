@@ -6,7 +6,7 @@ v0.4 separates evidence from decision policy. A reviewer can declare multiple th
 
 ## Input contract
 
-Each scenario has a unique `scenario_id`, a label and three non-negative thresholds: monthly support volume, repetitive-contact share and first-response hours. Share must remain between 0 and 100. At least two scenarios are required.
+Each scenario has a unique `scenario_id`, a label and three finite, non-negative thresholds: monthly support volume, repetitive-contact share and first-response hours. Share must remain between 0 and 100. `NaN` and infinity are rejected. At least two scenarios are required.
 
 ## Safety and evidence controls
 

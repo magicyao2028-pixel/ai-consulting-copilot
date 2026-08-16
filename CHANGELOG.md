@@ -7,6 +7,7 @@
 - preserved stale, future-dated, unverified and contradiction gates across every scenario;
 - kept normalized interview candidates outside scenario evidence and recorded the evidence IDs used;
 - added a deterministic three-scenario fixture, reproducible output and focused regression tests.
+- rejected non-finite threshold values before they can affect policy comparisons or JSON output.
 
 ## 0.3.0 - 2026-08-12
 

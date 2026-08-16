@@ -30,6 +30,7 @@ M4 should add an evidence-lineage graph and richer citation tests. It must prese
 - input reliability labels are trusted rather than audited;
 - fixed source-specific freshness windows and 10% numeric conflict tolerance;
 - scenario thresholds are user-declared prototype policy, not optimized or validated business standards;
+- scenario thresholds must be finite; `NaN` and infinity are rejected before comparison;
 - deterministic English output only;
 - structured note intake only; no recording, transcription, web research, LLM, database, authentication or real user study;
 - static page and Python output are maintained separately.

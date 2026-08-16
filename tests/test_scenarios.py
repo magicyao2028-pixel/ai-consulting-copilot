@@ -66,6 +66,16 @@ class ScenarioComparisonTests(unittest.TestCase):
                 "first_response_hours": 8,
             })
 
+    def test_threshold_validation_rejects_nan_and_infinity(self):
+        for invalid in ("NaN", "Infinity"):
+            with self.subTest(invalid=invalid):
+                with self.assertRaisesRegex(ValueError, "finite"):
+                    DecisionThresholds.from_mapping({
+                        "monthly_support_volume": invalid,
+                        "repetitive_contact_share_pct": 40,
+                        "first_response_hours": 8,
+                    })
+
     def test_comparison_requires_two_scenarios(self):
         one = DecisionScenario("only", "Only scenario", DecisionThresholds(1000, 40, 8))
         with self.assertRaisesRegex(ValueError, "At least two"):

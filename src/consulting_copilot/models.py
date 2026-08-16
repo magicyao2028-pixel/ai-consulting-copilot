@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import math
 from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
@@ -28,6 +29,8 @@ class DecisionThresholds:
         if missing:
             raise ValueError(f"Missing threshold fields: {', '.join(missing)}")
         thresholds = cls(**{field: float(value[field]) for field in required})
+        if not all(math.isfinite(item) for item in thresholds.as_dict().values()):
+            raise ValueError("Decision thresholds must be finite numbers")
         if thresholds.monthly_support_volume < 0 or thresholds.first_response_hours < 0:
             raise ValueError("Volume and response-hour thresholds must not be negative")
         if not 0 <= thresholds.repetitive_contact_share_pct <= 100:
