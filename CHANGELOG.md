@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.0 - 2026-08-16
+
+- added validated, named decision-threshold scenarios and a zero-dependency comparison CLI;
+- compared multiple policy choices against one governed evidence register and exposed decision sensitivity;
+- preserved stale, future-dated, unverified and contradiction gates across every scenario;
+- kept normalized interview candidates outside scenario evidence and recorded the evidence IDs used;
+- added a deterministic three-scenario fixture, reproducible output and focused regression tests.
+
 ## 0.3.0 - 2026-08-12
 
 - added validated synthetic interview notes with consent and claim-kind controls;

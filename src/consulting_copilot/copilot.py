@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from .models import ConsultingEngagement, EvidenceItem
+from .models import DEFAULT_THRESHOLDS, ConsultingEngagement, DecisionThresholds, EvidenceItem
 from .quality import assess_evidence, select_metrics
 
 
@@ -16,7 +16,11 @@ REQUIRED_METRICS = {
 class ConsultingCopilot:
     """Builds a deterministic, cited decision memo from structured evidence."""
 
-    def analyze(self, engagement: ConsultingEngagement) -> dict[str, Any]:
+    def analyze(
+        self,
+        engagement: ConsultingEngagement,
+        thresholds: DecisionThresholds = DEFAULT_THRESHOLDS,
+    ) -> dict[str, Any]:
         assessments = assess_evidence(engagement.evidence, engagement.analysis_date)
         eligible = [
             item for item in engagement.evidence
@@ -34,19 +38,23 @@ class ConsultingCopilot:
         metrics, conflicts = select_metrics(engagement.evidence, assessments)
         if conflicts:
             return self._conflicted(
-                engagement, eligible, assessments, ignored, stale, future_dated, conflicts
+                engagement, eligible, assessments, ignored, stale, future_dated, conflicts, thresholds
             )
         missing = sorted(REQUIRED_METRICS.difference(metrics))
 
         if missing:
             return self._insufficient(
-                engagement, eligible, assessments, ignored, stale, future_dated, missing
+                engagement, eligible, assessments, ignored, stale, future_dated, missing, thresholds
             )
 
         volume = metrics["monthly_support_volume"]
         repetitive = metrics["repetitive_contact_share_pct"]
         response = metrics["first_response_hours"]
-        pilot_supported = volume.value >= 1000 and repetitive.value >= 40 and response.value >= 8
+        pilot_supported = (
+            volume.value >= thresholds.monthly_support_volume
+            and repetitive.value >= thresholds.repetitive_contact_share_pct
+            and response.value >= thresholds.first_response_hours
+        )
         key_ids = [volume.evidence_id, repetitive.evidence_id, response.evidence_id]
 
         findings = [
@@ -62,7 +70,10 @@ class ConsultingCopilot:
                 [repetitive.evidence_id],
             ),
             self._claim(
-                f"First response currently takes {response.value:g} hours, above the eight-hour pilot threshold.",
+                (
+                    f"First response currently takes {response.value:g} hours; the active scenario "
+                    f"requires at least {thresholds.first_response_hours:g} hours."
+                ),
                 [response.evidence_id],
             ),
         ]
@@ -87,6 +98,8 @@ class ConsultingCopilot:
             "decision_question": engagement.decision_question,
             "executive_decision": decision,
             "confidence": "medium",
+            "decision_policy": thresholds.as_dict(),
+            "pilot_supported": pilot_supported,
             "findings": findings,
             "options": [
                 self._claim("Keep the current manual workflow and continue measuring the baseline.", key_ids),
@@ -140,6 +153,7 @@ class ConsultingCopilot:
         stale: list[str],
         future_dated: list[str],
         missing: list[str],
+        thresholds: DecisionThresholds,
     ) -> dict[str, Any]:
         result = {
             "engagement_id": engagement.engagement_id,
@@ -148,6 +162,8 @@ class ConsultingCopilot:
             "decision_question": engagement.decision_question,
             "executive_decision": "No recommendation issued.",
             "confidence": "none",
+            "decision_policy": thresholds.as_dict(),
+            "pilot_supported": None,
             "findings": [self._claim(item.claim, [item.evidence_id]) for item in eligible],
             "options": [],
             "recommendations": [],
@@ -175,6 +191,7 @@ class ConsultingCopilot:
         stale: list[str],
         future_dated: list[str],
         conflicts: list[dict[str, Any]],
+        thresholds: DecisionThresholds,
     ) -> dict[str, Any]:
         conflict_ids = {evidence_id for item in conflicts for evidence_id in item["evidence_ids"]}
         findings = [
@@ -189,6 +206,8 @@ class ConsultingCopilot:
             "decision_question": engagement.decision_question,
             "executive_decision": "No recommendation issued until the conflicting evidence is reconciled.",
             "confidence": "none",
+            "decision_policy": thresholds.as_dict(),
+            "pilot_supported": None,
             "findings": findings,
             "options": [],
             "recommendations": [],

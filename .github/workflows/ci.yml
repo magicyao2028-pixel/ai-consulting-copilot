@@ -21,6 +21,8 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Rebuild decision memo
         run: consulting-copilot data/sample_engagement.json
+      - name: Rebuild scenario comparison
+        run: consulting-scenario-compare data/sample_engagement.json data/sample_scenarios.json
 
   validate-static-site:
     runs-on: ubuntu-latest

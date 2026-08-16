@@ -2,7 +2,7 @@
 
 ## Product and user
 
-AI Consulting Copilot v0.3 supports an operations or transformation lead in a small or medium-sized business. It prepares a reviewable decision memo; it does not make or execute the decision.
+AI Consulting Copilot v0.4 supports an operations or transformation lead in a small or medium-sized business. It prepares a reviewable decision memo and compares declared policy scenarios; it does not make or execute the decision.
 
 ## Problem
 
@@ -21,6 +21,8 @@ AI pilot discussions often mix internal facts, assumptions and vendor claims. De
 9. Normalize consented synthetic interview statements into pending candidate claims.
 10. Require a named reviewer, decision date and rationale before an observation enters the evidence register.
 11. Prevent opinions and requests from being promoted as evidence.
+12. Validate configurable decision thresholds and compare at least two declared scenarios against the same evidence register.
+13. Show whether the recommendation changes across scenarios without allowing thresholds to bypass evidence-quality gates.
 
 ## Out of scope
 
@@ -31,4 +33,4 @@ AI pilot discussions often mix internal facts, assumptions and vendor claims. De
 
 ## Release gate
 
-The sample must pass all tests, use synthetic data, cite every generated claim, keep normalized candidates outside the evidence register until human approval, exclude unverified/stale/future evidence from decision logic and issue no recommendation when a required metric is absent or current evidence conflicts.
+The sample must pass all tests, use synthetic data, cite every generated claim, keep normalized candidates outside the evidence register until human approval, exclude unverified/stale/future evidence from decision logic and issue no recommendation when a required metric is absent or current evidence conflicts. Scenario comparison must reuse the same evidence register, expose its thresholds and remain blocked by those same evidence gates.

@@ -5,6 +5,12 @@
   "decision_question": "Should a regional retailer run an AI-assisted customer-service pilot?",
   "executive_decision": "Run a 30-day assistive customer-service pilot with human approval gates.",
   "confidence": "medium",
+  "decision_policy": {
+    "monthly_support_volume": 1000,
+    "repetitive_contact_share_pct": 40,
+    "first_response_hours": 8
+  },
+  "pilot_supported": true,
   "findings": [
     {
       "claim": "The synthetic support operation handles 4200 contacts per month.",
@@ -19,7 +25,7 @@
       ]
     },
     {
-      "claim": "First response currently takes 11.8 hours, above the eight-hour pilot threshold.",
+      "claim": "First response currently takes 11.8 hours; the active scenario requires at least 8 hours.",
       "evidence_ids": [
         "E-03"
       ]

@@ -13,7 +13,7 @@ Run a 30-day assistive customer-service pilot with human approval gates.
 
 - The synthetic support operation handles 4200 contacts per month. [E-01]
 - Repetitive intents represent 61% of contacts, creating a bounded assistive use case. [E-02]
-- First response currently takes 11.8 hours, above the eight-hour pilot threshold. [E-03]
+- First response currently takes 11.8 hours; the active scenario requires at least 8 hours. [E-03]
 
 ## Options
 

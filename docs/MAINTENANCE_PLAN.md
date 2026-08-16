@@ -6,7 +6,7 @@ The initial repository is intentionally narrow. Each maintenance round must add 
 | --- | --- | --- |
 | M1 | Contradiction detection and evidence freshness | Completed in v0.2 |
 | M2 | Interview-note normalization with human claim approval | Completed in v0.3 |
-| M3 | Configurable thresholds and scenario comparison | Planned |
+| M3 | Configurable thresholds and scenario comparison | Completed in v0.4 |
 | M4 | Evidence lineage graph and richer citation tests | Planned |
 | M5 | Reviewer feedback and recommendation replay | Planned |
 | M6 | Optional grounded model adapter with deterministic fallback | Planned |

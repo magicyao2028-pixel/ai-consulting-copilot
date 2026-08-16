@@ -3,7 +3,7 @@
 [![CI](https://github.com/magicyao2028-pixel/ai-consulting-copilot/actions/workflows/ci.yml/badge.svg)](https://github.com/magicyao2028-pixel/ai-consulting-copilot/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-> 中文介绍：这是一个面向中小企业 AI 转型场景的“证据驱动决策备忘录”原型。它把结构化业务证据整理为问题判断、备选方案、风险、建议和 30 天试点计划；每条关键结论都保留证据编号，未核实的供应商宣传不会进入推荐依据，关键数据缺失时会停止给出建议。公开版仅使用合成数据，不调用付费 API，也不声称已经产生真实经营效果。
+> 中文介绍：这是一个面向中小企业 AI 转型场景的“证据驱动决策备忘录”原型。它把同一组受治理的结构化业务证据放入不同的显式阈值方案，展示建议是否随政策假设改变；未核实、过期、未来日期或互相冲突的证据不能被宽松阈值绕过。公开版仅使用合成数据，不调用付费 API，也不声称已经产生真实经营效果。
 
 **Live prototype:** https://magicyao2028-pixel.github.io/ai-consulting-copilot/
 
@@ -13,7 +13,7 @@ This portfolio edition documents an AI-application and Agent-product practice ex
 
 ## Business problem
 
-Small and medium-sized businesses often discuss AI pilots with incomplete baselines, vendor claims and unclear release gates. A polished report can still be unreliable when readers cannot trace a recommendation to its source. This v0.3 prototype therefore:
+Small and medium-sized businesses often discuss AI pilots with incomplete baselines, vendor claims and unclear release gates. A polished report can still be unreliable when readers cannot trace a recommendation to its source. This v0.4 prototype therefore:
 
 - validates an engagement and evidence register;
 - separates verified, indicative and unverified evidence;
@@ -24,6 +24,8 @@ Small and medium-sized businesses often discuss AI pilots with incomplete baseli
 - blocks recommendations when current metric values materially conflict;
 - normalizes structured synthetic interview notes into candidate claims without treating them as evidence;
 - requires an attributable human decision before an observation can enter the evidence register;
+- validates named decision-threshold scenarios and compares them against one governed evidence register;
+- reports whether a recommendation changes across scenarios without weakening any evidence gate;
 - abstains when required evidence is missing;
 - produces a human-governed 30-day pilot memo in JSON and Markdown.
 
@@ -35,7 +37,7 @@ Small and medium-sized businesses often discuss AI pilots with incomplete baseli
 | Consulting workflow | Evidence intake -> quality gate -> findings -> options -> recommendation -> pilot plan |
 | Grounded output | 100% claim-citation coverage in the synthetic reference case |
 | Governance | Claim-kind review, reliability, freshness, contradiction and insufficient-evidence gates |
-| Engineering | Typed Python package, three CLIs, 21 tests, CI and reproducible reports |
+| Engineering | Typed Python package, four CLIs, focused regression tests, CI and reproducible reports |
 | Product communication | Zero-cost [browser case page](site/) and executive decision memo |
 
 ## Workflow
@@ -66,6 +68,7 @@ python -m pip install -e .
 consulting-copilot data/sample_engagement.json
 consulting-interview-normalize data/sample_interview_notes.json --output examples/interview_candidates.json
 consulting-claim-review examples/interview_candidates.json data/sample_claim_review.json --output examples/interview_review.json
+consulting-scenario-compare data/sample_engagement.json data/sample_scenarios.json --output examples/scenario_comparison.json
 python -m unittest discover -s tests -v
 ```
 
@@ -85,10 +88,13 @@ The 100% citation figure means every generated claim object in this engineered s
 
 The synthetic interview fixture produces five candidate claims. A separate review fixture approves three observations, rejects one opinion and requests clarification on one research request. Approved records remain `indicative` and must still pass the same freshness and contradiction gates as every other evidence source.
 
+The scenario fixture compares baseline, cautious and strict declared policies against the same source register. The first two support the bounded pilot while the strict policy does not, making sensitivity visible without pretending that any threshold is universally correct.
+
 ## Honest boundaries
 
 - Public evidence and business figures are synthetic.
 - Rules and thresholds are illustrative, not universal consulting standards.
+- Scenario comparison is deterministic sensitivity analysis, not forecasting, optimization or proof of ROI.
 - Evidence reliability labels are supplied by the input and are not independently audited.
 - Freshness windows and the 10% contradiction tolerance are explicit prototype rules, not universal standards.
 - The workflow does not record or transcribe interviews, search the web or connect to company systems; it accepts structured synthetic notes only.
@@ -101,6 +107,7 @@ The synthetic interview fixture produces five candidate claims. A separate revie
 - [Architecture](docs/ARCHITECTURE.md)
 - [Evidence method](docs/EVIDENCE_METHOD.md)
 - [Interview claim review](docs/INTERVIEW_CLAIM_REVIEW.md)
+- [Scenario comparison](docs/SCENARIO_COMPARISON.md)
 - [Security and governance](docs/SECURITY.md)
 - [Maintenance plan](docs/MAINTENANCE_PLAN.md)
 - [Current handoff](HANDOFF.md)

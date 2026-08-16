@@ -10,7 +10,9 @@ These labels describe input governance, not independent auditing by the program.
 
 ## Decision gate
 
-v0.3 requires three metrics: monthly support volume, repetitive-contact share and first-response hours. A pilot recommendation is only available when all three are usable. The reference thresholds are 1,000 contacts, 40 percent repetitive share and eight response hours.
+v0.4 requires three metrics: monthly support volume, repetitive-contact share and first-response hours. A pilot recommendation is only available when all three are usable. The default thresholds are 1,000 contacts, 40 percent repetitive share and eight response hours. They are explicit configuration, not universal standards.
+
+Scenario comparison changes only those declared thresholds. It reuses the same eligible metric selections and reports whether the outcome changes. Missing, conflicted, stale, future-dated or unverified evidence cannot be made eligible by selecting a more permissive scenario.
 
 ## Interview claim gate
 

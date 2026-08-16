@@ -12,6 +12,65 @@ SOURCE_TYPES = {"internal_record", "interview", "policy", "external_benchmark"}
 
 
 @dataclass(frozen=True)
+class DecisionThresholds:
+    monthly_support_volume: float
+    repetitive_contact_share_pct: float
+    first_response_hours: float
+
+    @classmethod
+    def from_mapping(cls, value: dict[str, Any]) -> "DecisionThresholds":
+        required = {
+            "monthly_support_volume",
+            "repetitive_contact_share_pct",
+            "first_response_hours",
+        }
+        missing = sorted(required.difference(value))
+        if missing:
+            raise ValueError(f"Missing threshold fields: {', '.join(missing)}")
+        thresholds = cls(**{field: float(value[field]) for field in required})
+        if thresholds.monthly_support_volume < 0 or thresholds.first_response_hours < 0:
+            raise ValueError("Volume and response-hour thresholds must not be negative")
+        if not 0 <= thresholds.repetitive_contact_share_pct <= 100:
+            raise ValueError("Repetitive-contact threshold must be between 0 and 100")
+        return thresholds
+
+    def as_dict(self) -> dict[str, float]:
+        return {
+            "monthly_support_volume": self.monthly_support_volume,
+            "repetitive_contact_share_pct": self.repetitive_contact_share_pct,
+            "first_response_hours": self.first_response_hours,
+        }
+
+
+DEFAULT_THRESHOLDS = DecisionThresholds(
+    monthly_support_volume=1000,
+    repetitive_contact_share_pct=40,
+    first_response_hours=8,
+)
+
+
+@dataclass(frozen=True)
+class DecisionScenario:
+    scenario_id: str
+    label: str
+    thresholds: DecisionThresholds
+
+    @classmethod
+    def from_mapping(cls, value: dict[str, Any]) -> "DecisionScenario":
+        thresholds = value.get("thresholds")
+        if not isinstance(thresholds, dict):
+            raise ValueError("scenario thresholds must be an object")
+        scenario = cls(
+            scenario_id=str(value.get("scenario_id", "")).strip(),
+            label=str(value.get("label", "")).strip(),
+            thresholds=DecisionThresholds.from_mapping(thresholds),
+        )
+        if not scenario.scenario_id or not scenario.label:
+            raise ValueError("scenario_id and label must not be blank")
+        return scenario
+
+
+@dataclass(frozen=True)
 class EvidenceItem:
     evidence_id: str
     title: str
@@ -116,3 +175,17 @@ def load_engagement(path: Path) -> ConsultingEngagement:
     if not isinstance(payload, dict):
         raise ValueError("Engagement file must contain a JSON object")
     return ConsultingEngagement.from_mapping(payload)
+
+
+def load_scenarios(path: Path) -> tuple[DecisionScenario, ...]:
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"Invalid scenario JSON: {exc.msg}") from exc
+    if not isinstance(payload, list) or len(payload) < 2:
+        raise ValueError("Scenario file must contain at least two scenarios")
+    scenarios = tuple(DecisionScenario.from_mapping(item) for item in payload)
+    ids = [item.scenario_id for item in scenarios]
+    if len(ids) != len(set(ids)):
+        raise ValueError("scenario_id values must be unique")
+    return scenarios

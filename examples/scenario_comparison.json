@@ -1,0 +1,76 @@
+{
+  "engagement_id": "SYNTH-CONSULT-001",
+  "analysis_date": "2026-08-08",
+  "status": "comparison_ready",
+  "scenario_count": 3,
+  "decision_changes_across_scenarios": true,
+  "blocked_statuses": [],
+  "scenarios": [
+    {
+      "scenario_id": "baseline-policy",
+      "label": "Declared baseline policy",
+      "status": "recommendation_ready",
+      "pilot_supported": true,
+      "executive_decision": "Run a 30-day assistive customer-service pilot with human approval gates.",
+      "thresholds": {
+        "monthly_support_volume": 1000.0,
+        "repetitive_contact_share_pct": 40.0,
+        "first_response_hours": 8.0
+      },
+      "evidence_ids_used": [
+        "E-01",
+        "E-02",
+        "E-03",
+        "E-04"
+      ],
+      "blocking_conflicts": [],
+      "missing_evidence": []
+    },
+    {
+      "scenario_id": "cautious-policy",
+      "label": "Cautious transformation policy",
+      "status": "recommendation_ready",
+      "pilot_supported": true,
+      "executive_decision": "Run a 30-day assistive customer-service pilot with human approval gates.",
+      "thresholds": {
+        "monthly_support_volume": 3000.0,
+        "repetitive_contact_share_pct": 55.0,
+        "first_response_hours": 10.0
+      },
+      "evidence_ids_used": [
+        "E-01",
+        "E-02",
+        "E-03",
+        "E-04"
+      ],
+      "blocking_conflicts": [],
+      "missing_evidence": []
+    },
+    {
+      "scenario_id": "strict-policy",
+      "label": "Strict scale policy",
+      "status": "recommendation_ready",
+      "pilot_supported": false,
+      "executive_decision": "Do not start the pilot yet; the current metrics do not cross the defined thresholds.",
+      "thresholds": {
+        "monthly_support_volume": 5000.0,
+        "repetitive_contact_share_pct": 65.0,
+        "first_response_hours": 12.0
+      },
+      "evidence_ids_used": [
+        "E-01",
+        "E-02",
+        "E-03",
+        "E-04"
+      ],
+      "blocking_conflicts": [],
+      "missing_evidence": []
+    }
+  ],
+  "governance": {
+    "same_evidence_register_used": true,
+    "thresholds_change_policy_not_evidence": true,
+    "candidate_claims_are_not_evidence": true,
+    "human_approval_required": true
+  }
+}
