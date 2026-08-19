@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0",
+  "trial_id": "TRIAL-CONSULTING-001",
+  "source_data": "synthetic",
+  "overall_passed": true,
+  "core_flow": {
+    "passed": true,
+    "memo_status": "recommendation_ready",
+    "evidence_nodes": 6,
+    "claim_nodes": 9,
+    "unknown_citation_blocked": true,
+    "external_actions_executed": 0
+  },
+  "feedback_regression": {
+    "feedback_id": "FB-LINEAGE-SYN-001",
+    "source_type": "synthetic",
+    "passed": true
+  },
+  "external_intake": [
+    {
+      "repository": "https://github.com/OpenLineage/OpenLineage",
+      "decision": "rejected",
+      "passed": true
+    },
+    {
+      "repository": "https://github.com/networkx/networkx",
+      "decision": "rejected",
+      "passed": true
+    }
+  ],
+  "evidence_index": [
+    {
+      "claim_id": "CONSULT-BUSINESS-001",
+      "artifact_paths": [
+        "docs/PRD.md",
+        "docs/EVIDENCE_METHOD.md"
+      ],
+      "passed": true
+    },
+    {
+      "claim_id": "CONSULT-RUN-001",
+      "artifact_paths": [
+        "src/consulting_copilot/trial.py",
+        "docs/TRIAL_GUIDE.md"
+      ],
+      "passed": true
+    },
+    {
+      "claim_id": "CONSULT-LINEAGE-001",
+      "artifact_paths": [
+        "src/consulting_copilot/lineage.py",
+        "tests/test_lineage.py"
+      ],
+      "passed": true
+    },
+    {
+      "claim_id": "CONSULT-FAIL-001",
+      "artifact_paths": [
+        "tests/test_lineage.py"
+      ],
+      "passed": true
+    },
+    {
+      "claim_id": "CONSULT-OSS-001",
+      "artifact_paths": [
+        "evidence/external_intake.json"
+      ],
+      "passed": true
+    },
+    {
+      "claim_id": "CONSULT-FEEDBACK-001",
+      "artifact_paths": [
+        "evidence/feedback_case.json"
+      ],
+      "passed": true
+    },
+    {
+      "claim_id": "CONSULT-LIMIT-001",
+      "artifact_paths": [
+        "docs/SECURITY.md",
+        "HANDOFF.md"
+      ],
+      "passed": true
+    }
+  ],
+  "boundaries": [
+    "The graph validates declared links; it does not independently verify evidence truth, causality or recommendation quality.",
+    "All records and feedback are synthetic; no real consulting adoption or business outcome is claimed.",
+    "A real pilot requires accountable evidence owners, authenticated storage, source verification, approved thresholds and a human go/no-go decision."
+  ]
+}

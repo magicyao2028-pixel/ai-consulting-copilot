@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0", "project": "ai-consulting-copilot", "claims": [
+    {"claim_id": "CONSULT-BUSINESS-001", "statement": "The workflow supports an evidence-governed pilot decision.", "artifacts": [{"kind": "requirements", "path": "docs/PRD.md"}, {"kind": "method", "path": "docs/EVIDENCE_METHOD.md"}]},
+    {"claim_id": "CONSULT-RUN-001", "statement": "A clean trial builds a memo and lineage graph without paid services.", "artifacts": [{"kind": "implementation", "path": "src/consulting_copilot/trial.py"}, {"kind": "guide", "path": "docs/TRIAL_GUIDE.md"}]},
+    {"claim_id": "CONSULT-LINEAGE-001", "statement": "Every memo claim maps through explicit edges to eligible evidence.", "artifacts": [{"kind": "implementation", "path": "src/consulting_copilot/lineage.py"}, {"kind": "tests", "path": "tests/test_lineage.py"}]},
+    {"claim_id": "CONSULT-FAIL-001", "statement": "Unknown or ineligible evidence citations fail closed.", "artifacts": [{"kind": "tests", "path": "tests/test_lineage.py"}]},
+    {"claim_id": "CONSULT-OSS-001", "statement": "Two lineage and graph projects were screened without adding unnecessary infrastructure.", "artifacts": [{"kind": "screening", "path": "evidence/external_intake.json"}]},
+    {"claim_id": "CONSULT-FEEDBACK-001", "statement": "A synthetic lineage requirement links change and regression evidence.", "artifacts": [{"kind": "feedback", "path": "evidence/feedback_case.json"}]},
+    {"claim_id": "CONSULT-LIMIT-001", "statement": "Source-truth, threshold and human-authority limitations remain explicit.", "artifacts": [{"kind": "security", "path": "docs/SECURITY.md"}, {"kind": "handoff", "path": "HANDOFF.md"}]}
+  ],
+  "boundaries": [
+    "The graph validates declared links; it does not independently verify evidence truth, causality or recommendation quality.",
+    "All records and feedback are synthetic; no real consulting adoption or business outcome is claimed.",
+    "A real pilot requires accountable evidence owners, authenticated storage, source verification, approved thresholds and a human go/no-go decision."
+  ]
+}

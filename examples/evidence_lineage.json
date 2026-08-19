@@ -1,0 +1,223 @@
+{
+  "lineage_version": "0.5",
+  "engagement_id": "SYNTH-CONSULT-001",
+  "nodes": [
+    {
+      "node_id": "E-01",
+      "kind": "evidence",
+      "reliability": "verified",
+      "freshness_status": "current",
+      "eligible_for_decision": true
+    },
+    {
+      "node_id": "E-02",
+      "kind": "evidence",
+      "reliability": "verified",
+      "freshness_status": "current",
+      "eligible_for_decision": true
+    },
+    {
+      "node_id": "E-03",
+      "kind": "evidence",
+      "reliability": "verified",
+      "freshness_status": "current",
+      "eligible_for_decision": true
+    },
+    {
+      "node_id": "E-04",
+      "kind": "evidence",
+      "reliability": "verified",
+      "freshness_status": "current",
+      "eligible_for_decision": true
+    },
+    {
+      "node_id": "E-05",
+      "kind": "evidence",
+      "reliability": "unverified",
+      "freshness_status": "current",
+      "eligible_for_decision": false
+    },
+    {
+      "node_id": "E-06",
+      "kind": "evidence",
+      "reliability": "indicative",
+      "freshness_status": "stale",
+      "eligible_for_decision": false
+    },
+    {
+      "node_id": "finding:001",
+      "kind": "claim",
+      "group": "findings",
+      "claim": "The synthetic support operation handles 4200 contacts per month."
+    },
+    {
+      "node_id": "finding:002",
+      "kind": "claim",
+      "group": "findings",
+      "claim": "Repetitive intents represent 61% of contacts, creating a bounded assistive use case."
+    },
+    {
+      "node_id": "finding:003",
+      "kind": "claim",
+      "group": "findings",
+      "claim": "First response currently takes 11.8 hours; the active scenario requires at least 8 hours."
+    },
+    {
+      "node_id": "option:001",
+      "kind": "claim",
+      "group": "options",
+      "claim": "Keep the current manual workflow and continue measuring the baseline."
+    },
+    {
+      "node_id": "option:002",
+      "kind": "claim",
+      "group": "options",
+      "claim": "Run a narrow assistive pilot for repetitive intents; recommended."
+    },
+    {
+      "node_id": "option:003",
+      "kind": "claim",
+      "group": "options",
+      "claim": "Fully automate replies; rejected because current evidence does not support that risk."
+    },
+    {
+      "node_id": "recommendation:001",
+      "kind": "claim",
+      "group": "recommendations",
+      "claim": "Run a 30-day assistive customer-service pilot with human approval gates."
+    },
+    {
+      "node_id": "recommendation:002",
+      "kind": "claim",
+      "group": "recommendations",
+      "claim": "Keep sensitive-data filtering and human approval as release gates."
+    },
+    {
+      "node_id": "risk:001",
+      "kind": "claim",
+      "group": "risks",
+      "claim": "Customer messages may contain sensitive data, so raw text must not enter an uncontrolled model path."
+    },
+    {
+      "node_id": "decision:executive",
+      "kind": "decision",
+      "status": "recommendation_ready",
+      "human_approval_required": true
+    }
+  ],
+  "edges": [
+    {
+      "from": "E-01",
+      "to": "finding:001",
+      "relationship": "supports"
+    },
+    {
+      "from": "E-02",
+      "to": "finding:002",
+      "relationship": "supports"
+    },
+    {
+      "from": "E-03",
+      "to": "finding:003",
+      "relationship": "supports"
+    },
+    {
+      "from": "E-01",
+      "to": "option:001",
+      "relationship": "supports"
+    },
+    {
+      "from": "E-02",
+      "to": "option:001",
+      "relationship": "supports"
+    },
+    {
+      "from": "E-03",
+      "to": "option:001",
+      "relationship": "supports"
+    },
+    {
+      "from": "E-01",
+      "to": "option:002",
+      "relationship": "supports"
+    },
+    {
+      "from": "E-02",
+      "to": "option:002",
+      "relationship": "supports"
+    },
+    {
+      "from": "E-03",
+      "to": "option:002",
+      "relationship": "supports"
+    },
+    {
+      "from": "E-01",
+      "to": "option:003",
+      "relationship": "supports"
+    },
+    {
+      "from": "E-02",
+      "to": "option:003",
+      "relationship": "supports"
+    },
+    {
+      "from": "E-03",
+      "to": "option:003",
+      "relationship": "supports"
+    },
+    {
+      "from": "E-04",
+      "to": "option:003",
+      "relationship": "supports"
+    },
+    {
+      "from": "E-01",
+      "to": "recommendation:001",
+      "relationship": "supports"
+    },
+    {
+      "from": "E-02",
+      "to": "recommendation:001",
+      "relationship": "supports"
+    },
+    {
+      "from": "E-03",
+      "to": "recommendation:001",
+      "relationship": "supports"
+    },
+    {
+      "from": "E-04",
+      "to": "recommendation:002",
+      "relationship": "supports"
+    },
+    {
+      "from": "E-04",
+      "to": "risk:001",
+      "relationship": "supports"
+    },
+    {
+      "from": "recommendation:001",
+      "to": "decision:executive",
+      "relationship": "informs"
+    },
+    {
+      "from": "recommendation:002",
+      "to": "decision:executive",
+      "relationship": "informs"
+    }
+  ],
+  "excluded_evidence_ids": [
+    "E-05",
+    "E-06"
+  ],
+  "summary": {
+    "evidence_nodes": 6,
+    "claim_nodes": 9,
+    "decision_nodes": 1,
+    "support_edges": 18,
+    "all_claims_cited": true,
+    "ineligible_evidence_used": false
+  },
+  "boundary": "The graph proves declared citation lineage for one synthetic memo; it does not prove source truth or recommendation quality."
+}

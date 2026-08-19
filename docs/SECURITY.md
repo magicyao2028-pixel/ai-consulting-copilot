@@ -8,4 +8,7 @@
 - Do not promote opinions or requests into the evidence register.
 - Keep human approval for spending, policy changes and customer-facing actions.
 - The current CLI performs no network request and has no paid API dependency.
+- The lineage report validates declared links; it does not prove that a source is true or that a recommendation is correct.
+- Trial commands write local reports only and never execute a business recommendation or call an external system.
+- External screening and feedback fixtures are public, synthetic governance records rather than evidence of adoption.
 - Before real use, add authenticated storage, role-based access, retention rules, audit events and a formal privacy review.

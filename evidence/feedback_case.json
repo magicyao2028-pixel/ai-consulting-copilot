@@ -1,0 +1,7 @@
+{
+  "schema_version": "1.0", "feedback_id": "FB-LINEAGE-SYN-001", "source_type": "synthetic", "recorded_on": "2026-08-20", "classification": "requirement", "decision": "accepted",
+  "summary": "A cited consulting claim must fail closed when its evidence ID is unknown or ineligible for the decision.",
+  "acceptance_test": "tests/test_lineage.py", "implementation": "src/consulting_copilot/lineage.py",
+  "release_result": "The lineage graph rejects unknown and ineligible citations while retaining excluded evidence nodes for audit.",
+  "adoption_claim": "Synthetic requirement only; not real client or consultant feedback."
+}

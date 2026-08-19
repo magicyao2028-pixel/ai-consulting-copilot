@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.0 - 2026-08-20
+
+- added a deterministic evidence-to-claim-to-decision lineage graph;
+- blocked unknown and decision-ineligible citations while retaining excluded evidence for audit;
+- added reproducible JSON/Markdown lineage reports, focused tests and a clean reviewer trial;
+- screened OpenLineage and NetworkX without forcing unnecessary infrastructure or dependencies;
+- linked a synthetic citation-integrity requirement to implementation and regression evidence.
+
 ## 0.4.0 - 2026-08-16
 
 - added validated, named decision-threshold scenarios and a zero-dependency comparison CLI;

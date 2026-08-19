@@ -28,6 +28,8 @@ Small and medium-sized businesses often discuss AI pilots with incomplete baseli
 - reports whether a recommendation changes across scenarios without weakening any evidence gate;
 - abstains when required evidence is missing;
 - produces a human-governed 30-day pilot memo in JSON and Markdown.
+- builds a machine-readable evidence-lineage graph and fails closed on unknown or decision-ineligible citations;
+- exposes a clean offline trial and seven-claim evidence index.
 
 ## What this repository demonstrates
 
@@ -39,6 +41,8 @@ Small and medium-sized businesses often discuss AI pilots with incomplete baseli
 | Governance | Claim-kind review, reliability, freshness, contradiction and insufficient-evidence gates |
 | Engineering | Typed Python package, four CLIs, focused regression tests, CI and reproducible reports |
 | Product communication | Zero-cost [browser case page](site/) and executive decision memo |
+| Evidence lineage | Deterministic evidence-to-claim-to-decision graph with unknown/ineligible citation blocking |
+| Trial readiness | [15–20 minute offline trial](docs/TRIAL_GUIDE.md), external screening and synthetic feedback regression |
 
 ## Workflow
 
@@ -69,6 +73,8 @@ consulting-copilot data/sample_engagement.json
 consulting-interview-normalize data/sample_interview_notes.json --output examples/interview_candidates.json
 consulting-claim-review examples/interview_candidates.json data/sample_claim_review.json --output examples/interview_review.json
 consulting-scenario-compare data/sample_engagement.json data/sample_scenarios.json --output examples/scenario_comparison.json
+consulting-lineage
+consulting-trial
 python -m unittest discover -s tests -v
 ```
 
@@ -90,6 +96,8 @@ The synthetic interview fixture produces five candidate claims. A separate revie
 
 The scenario fixture compares baseline, cautious and strict declared policies against the same source register. The first two support the bounded pilot while the strict policy does not, making sensitivity visible without pretending that any threshold is universally correct.
 
+The [lineage report](examples/evidence_lineage.md) maps every generated claim to eligible evidence and connects cited recommendations to the executive decision. Unknown and stale/unverified citations fail closed. This proves declared traceability for one synthetic memo, not source truth or recommendation validity.
+
 ## Honest boundaries
 
 - Public evidence and business figures are synthetic.
@@ -110,6 +118,7 @@ The scenario fixture compares baseline, cautious and strict declared policies ag
 - [Scenario comparison](docs/SCENARIO_COMPARISON.md)
 - [Security and governance](docs/SECURITY.md)
 - [Maintenance plan](docs/MAINTENANCE_PLAN.md)
+- [Trial guide](docs/TRIAL_GUIDE.md)
 - [Current handoff](HANDOFF.md)
 - [Changelog](CHANGELOG.md)
 
@@ -119,7 +128,8 @@ The scenario fixture compares baseline, cautious and strict declared policies ag
 - v0.2: contradiction detection and evidence freshness;
 - v0.3: interview-note normalization and claim extraction review;
 - v0.4: configurable decision thresholds and scenario comparison;
-- v0.5: optional grounded model adapter behind citation validation;
+- v0.5: evidence lineage and trial-readiness package (current);
+- v0.6: optional grounded model adapter behind citation validation;
 - v1.0: controlled private pilot with authenticated reviewers.
 
 ## License

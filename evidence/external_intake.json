@@ -1,0 +1,6 @@
+{
+  "schema_version": "1.0", "reviewed_on": "2026-08-20", "candidates": [
+    {"repository": "https://github.com/OpenLineage/OpenLineage", "version": "1.52.0", "commit": "cfd47d6f3e1b13167136b2508768c94a2351af23", "license": "Apache-2.0", "decision": "rejected", "code_adopted": false, "reason": "OpenLineage is designed for operational job and dataset events; adopting its clients and event model would add infrastructure beyond one offline decision-memo graph."},
+    {"repository": "https://github.com/networkx/networkx", "version": "networkx-3.6.1", "commit": "7530809bfa1ea7ed6fdf918a4d1431488953cb1f", "license": "NOASSERTION in reviewed GitHub metadata", "decision": "rejected", "code_adopted": false, "reason": "The trial needs deterministic node and edge validation, not graph algorithms; a dependency and unresolved metadata add no net value."}
+  ]
+}
