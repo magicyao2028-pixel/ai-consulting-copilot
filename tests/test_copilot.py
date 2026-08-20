@@ -135,6 +135,29 @@ class ConsultingCopilotTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "analysis_date"):
             ConsultingEngagement.from_mapping(payload)
 
+    def test_rejects_non_finite_boolean_and_out_of_range_evidence(self):
+        for invalid in ("NaN", "Infinity", "-Infinity", True):
+            with self.subTest(value=invalid):
+                payload = json.loads(SAMPLE.read_text(encoding="utf-8"))
+                payload["evidence"][0]["value"] = invalid
+                with self.assertRaisesRegex(ValueError, "finite number"):
+                    ConsultingEngagement.from_mapping(payload)
+
+        payload = json.loads(SAMPLE.read_text(encoding="utf-8"))
+        payload["evidence"][1]["value"] = 101
+        with self.assertRaisesRegex(ValueError, "between 0 and 100"):
+            ConsultingEngagement.from_mapping(payload)
+
+    def test_rejects_boolean_decision_threshold(self):
+        payload = {
+            "monthly_support_volume": True,
+            "repetitive_contact_share_pct": 40,
+            "first_response_hours": 8,
+        }
+        from consulting_copilot.models import DecisionThresholds
+        with self.assertRaisesRegex(ValueError, "not a boolean"):
+            DecisionThresholds.from_mapping(payload)
+
 
 if __name__ == "__main__":
     unittest.main()

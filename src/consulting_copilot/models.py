@@ -28,9 +28,7 @@ class DecisionThresholds:
         missing = sorted(required.difference(value))
         if missing:
             raise ValueError(f"Missing threshold fields: {', '.join(missing)}")
-        thresholds = cls(**{field: float(value[field]) for field in required})
-        if not all(math.isfinite(item) for item in thresholds.as_dict().values()):
-            raise ValueError("Decision thresholds must be finite numbers")
+        thresholds = cls(**{field: _finite_number(value[field], f"threshold {field}") for field in required})
         if thresholds.monthly_support_volume < 0 or thresholds.first_response_hours < 0:
             raise ValueError("Volume and response-hour thresholds must not be negative")
         if not 0 <= thresholds.repetitive_contact_share_pct <= 100:
@@ -99,7 +97,7 @@ class EvidenceItem:
             raise ValueError(f"reliability must be one of: {', '.join(sorted(RELIABILITY_LEVELS))}")
         metric = str(value.get("metric", "")).strip() or None
         raw_value = value.get("value")
-        numeric_value = float(raw_value) if raw_value is not None else None
+        numeric_value = _finite_number(raw_value, "evidence value") if raw_value is not None else None
         item = cls(
             evidence_id=str(value["evidence_id"]).strip(),
             title=str(value["title"]).strip(),
@@ -119,6 +117,10 @@ class EvidenceItem:
             raise ValueError("collected_at must use YYYY-MM-DD") from exc
         if (item.metric is None) != (item.value is None):
             raise ValueError("metric and value must be supplied together")
+        if item.value is not None and item.value < 0:
+            raise ValueError("evidence values must not be negative")
+        if item.metric and item.metric.endswith("_pct") and item.value is not None and item.value > 100:
+            raise ValueError("percentage evidence values must be between 0 and 100")
         return item
 
 
@@ -192,3 +194,15 @@ def load_scenarios(path: Path) -> tuple[DecisionScenario, ...]:
     if len(ids) != len(set(ids)):
         raise ValueError("scenario_id values must be unique")
     return scenarios
+
+
+def _finite_number(value: Any, field: str) -> float:
+    if isinstance(value, bool):
+        raise ValueError(f"{field} must be a finite number, not a boolean")
+    try:
+        number = float(value)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"{field} must be a finite number") from exc
+    if not math.isfinite(number):
+        raise ValueError(f"{field} must be a finite number")
+    return number
