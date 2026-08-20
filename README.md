@@ -13,7 +13,7 @@ This portfolio edition documents an AI-application and Agent-product practice ex
 
 ## Business problem
 
-Small and medium-sized businesses often discuss AI pilots with incomplete baselines, vendor claims and unclear release gates. A polished report can still be unreliable when readers cannot trace a recommendation to its source. This v0.4 prototype therefore:
+Small and medium-sized businesses often discuss AI pilots with incomplete baselines, vendor claims and unclear release gates. A polished report can still be unreliable when readers cannot trace a recommendation to its source. This v0.5 prototype therefore:
 
 - validates an engagement and evidence register;
 - separates verified, indicative and unverified evidence;
