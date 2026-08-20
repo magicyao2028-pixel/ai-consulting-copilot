@@ -97,7 +97,7 @@ class EvidenceItem:
             raise ValueError(f"reliability must be one of: {', '.join(sorted(RELIABILITY_LEVELS))}")
         metric = str(value.get("metric", "")).strip() or None
         raw_value = value.get("value")
-        numeric_value = _finite_number(raw_value, "evidence value") if raw_value is not None else None
+        numeric_value = validate_metric_value(metric, raw_value, "evidence value") if raw_value is not None else None
         item = cls(
             evidence_id=str(value["evidence_id"]).strip(),
             title=str(value["title"]).strip(),
@@ -117,10 +117,6 @@ class EvidenceItem:
             raise ValueError("collected_at must use YYYY-MM-DD") from exc
         if (item.metric is None) != (item.value is None):
             raise ValueError("metric and value must be supplied together")
-        if item.value is not None and item.value < 0:
-            raise ValueError("evidence values must not be negative")
-        if item.metric and item.metric.endswith("_pct") and item.value is not None and item.value > 100:
-            raise ValueError("percentage evidence values must be between 0 and 100")
         return item
 
 
@@ -205,4 +201,13 @@ def _finite_number(value: Any, field: str) -> float:
         raise ValueError(f"{field} must be a finite number") from exc
     if not math.isfinite(number):
         raise ValueError(f"{field} must be a finite number")
+    return number
+
+
+def validate_metric_value(metric: str | None, value: Any, field: str = "metric value") -> float:
+    number = _finite_number(value, field)
+    if number < 0:
+        raise ValueError(f"{field} must not be negative")
+    if metric and metric.endswith("_pct") and number > 100:
+        raise ValueError("percentage evidence values must be between 0 and 100")
     return number

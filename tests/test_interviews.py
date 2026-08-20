@@ -79,6 +79,18 @@ class InterviewGovernanceTests(unittest.TestCase):
         result = ConsultingCopilot().analyze(ConsultingEngagement.from_mapping(engagement))
         self.assertEqual(result["status"], "evidence_conflict")
 
+    def test_interview_metric_rejects_non_finite_boolean_and_out_of_range_values(self):
+        for invalid in ("NaN", "Infinity", "-Infinity", "1e309", True, 101, -1):
+            with self.subTest(value=invalid):
+                notes = load(NOTES)
+                notes["notes"][0]["statements"][0].update({
+                    "metric": "supervisor_handoff_share_pct",
+                    "value": invalid,
+                    "unit": "percent",
+                })
+                with self.assertRaisesRegex(ValueError, "finite number|between 0 and 100|must not be negative"):
+                    normalize_interview_notes(notes)
+
 
 if __name__ == "__main__":
     unittest.main()

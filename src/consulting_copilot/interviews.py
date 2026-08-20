@@ -7,6 +7,8 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
+from .models import validate_metric_value
+
 
 CLAIM_KINDS = {"observation", "opinion", "request"}
 REVIEW_DECISIONS = {"approve", "reject", "needs_clarification"}
@@ -29,7 +31,7 @@ class InterviewStatement:
             raise ValueError(f"claim_kind must be one of: {', '.join(sorted(CLAIM_KINDS))}")
         metric = str(value.get("metric", "")).strip() or None
         raw_value = value.get("value")
-        numeric_value = float(raw_value) if raw_value is not None else None
+        numeric_value = validate_metric_value(metric, raw_value, "interview metric value") if raw_value is not None else None
         item = cls(
             statement_id=str(value.get("statement_id", "")).strip(),
             text=" ".join(str(value.get("text", "")).split()),
