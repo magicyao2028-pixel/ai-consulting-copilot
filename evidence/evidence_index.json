@@ -6,7 +6,8 @@
     {"claim_id": "CONSULT-FAIL-001", "statement": "Unknown or ineligible evidence citations fail closed.", "artifacts": [{"kind": "tests", "path": "tests/test_lineage.py"}]},
     {"claim_id": "CONSULT-OSS-001", "statement": "Two lineage and graph projects were screened without adding unnecessary infrastructure.", "artifacts": [{"kind": "screening", "path": "evidence/external_intake.json"}]},
     {"claim_id": "CONSULT-FEEDBACK-001", "statement": "A synthetic lineage requirement links change and regression evidence.", "artifacts": [{"kind": "feedback", "path": "evidence/feedback_case.json"}]},
-    {"claim_id": "CONSULT-LIMIT-001", "statement": "Source-truth, threshold and human-authority limitations remain explicit.", "artifacts": [{"kind": "security", "path": "docs/SECURITY.md"}, {"kind": "handoff", "path": "HANDOFF.md"}]}
+    {"claim_id": "CONSULT-LIMIT-001", "statement": "Source-truth, threshold and human-authority limitations remain explicit.", "artifacts": [{"kind": "security", "path": "docs/SECURITY.md"}, {"kind": "handoff", "path": "HANDOFF.md"}]},
+    {"claim_id": "CONSULT-ADJUDICATION-001", "statement": "A human adjudication receipt can retain a conflict block without rewriting evidence, promoting a source or bypassing citation gates.", "artifacts": [{"kind": "implementation", "path": "src/consulting_copilot/adjudication.py"}, {"kind": "fixture", "path": "evidence/adjudication_receipt.json"}, {"kind": "tests", "path": "tests/test_adjudication.py"}]}
   ],
   "boundaries": [
     "The graph validates declared links; it does not independently verify evidence truth, causality or recommendation quality.",

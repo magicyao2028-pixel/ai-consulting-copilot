@@ -28,6 +28,11 @@
       "passed": true
     }
   ],
+  "adjudication": {
+    "receipt_id": "ADJ-SYNTH-CONSULT-001-2026-08-24",
+    "decision": "retain_block",
+    "passed": true
+  },
   "evidence_index": [
     {
       "claim_id": "CONSULT-BUSINESS-001",
@@ -79,6 +84,15 @@
       "artifact_paths": [
         "docs/SECURITY.md",
         "HANDOFF.md"
+      ],
+      "passed": true
+    },
+    {
+      "claim_id": "CONSULT-ADJUDICATION-001",
+      "artifact_paths": [
+        "src/consulting_copilot/adjudication.py",
+        "evidence/adjudication_receipt.json",
+        "tests/test_adjudication.py"
       ],
       "passed": true
     }

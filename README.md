@@ -22,6 +22,7 @@ Small and medium-sized businesses often discuss AI pilots with incomplete baseli
 - excludes unverified vendor claims from decision logic;
 - excludes stale and future-dated evidence using source-specific age limits;
 - blocks recommendations when current metric values materially conflict;
+- records an accountable human adjudication receipt for a conflict while leaving the recommendation blocked and the evidence unchanged;
 - normalizes structured synthetic interview notes into candidate claims without treating them as evidence;
 - requires an attributable human decision before an observation can enter the evidence register;
 - validates named decision-threshold scenarios and compares them against one governed evidence register;
@@ -29,7 +30,7 @@ Small and medium-sized businesses often discuss AI pilots with incomplete baseli
 - abstains when required evidence is missing;
 - produces a human-governed 30-day pilot memo in JSON and Markdown.
 - builds a machine-readable evidence-lineage graph and fails closed on unknown or decision-ineligible citations;
-- exposes a clean offline trial and seven-claim evidence index.
+- exposes a clean offline trial and eight-claim evidence index.
 
 ## What this repository demonstrates
 
@@ -98,6 +99,8 @@ The scenario fixture compares baseline, cautious and strict declared policies ag
 
 The [lineage report](examples/evidence_lineage.md) maps every generated claim to eligible evidence and connects cited recommendations to the executive decision. Unknown and stale/unverified citations fail closed. This proves declared traceability for one synthetic memo, not source truth or recommendation validity.
 
+The conflict fixture demonstrates a separate adjudication receipt: an accountable reviewer can choose `retain_block`, `request_recollection` or `reconcile`, but the receipt explicitly records `changes_applied: false`. It is an audit artifact, not an automatic evidence override.
+
 ## Honest boundaries
 
 - Public evidence and business figures are synthetic.
@@ -128,8 +131,8 @@ The [lineage report](examples/evidence_lineage.md) maps every generated claim to
 - v0.2: contradiction detection and evidence freshness;
 - v0.3: interview-note normalization and claim extraction review;
 - v0.4: configurable decision thresholds and scenario comparison;
-- v0.5: evidence lineage and trial-readiness package (current);
-- v0.6: optional grounded model adapter behind citation validation;
+- v0.5: evidence lineage and trial-readiness package;
+- v0.6: accountable conflict-adjudication receipt that preserves citation and abstention gates (current);
 - v1.0: controlled private pilot with authenticated reviewers.
 
 ## License

@@ -6,6 +6,7 @@
 - Memo status: `recommendation_ready`
 - Cited claim nodes: 9
 - Unknown citation blocked: yes
+- Conflict adjudication receipt: pass
 
 ## Pilot boundary
 

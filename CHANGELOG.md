@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.6.0 - 2026-08-24
+
+- added an accountable conflict-adjudication receipt with reviewer alias, conflict evidence IDs, rationale and explicit decision;
+- supported `retain_block`, `request_recollection` and `reconcile` as recorded human decisions without automatic evidence promotion or memo mutation;
+- added a synthetic conflict fixture, validation tests and trial-readiness coverage;
+- expanded the evidence index to eight claims while preserving abstention, citation and human go/no-go boundaries.
+
 ## 0.5.0 - 2026-08-20
 
 - added a deterministic evidence-to-claim-to-decision lineage graph;

@@ -8,8 +8,9 @@ from pathlib import Path
 from typing import Any
 
 from .copilot import ConsultingCopilot
+from .adjudication import validate_adjudication_receipt
 from .lineage import build_evidence_lineage
-from .models import load_engagement
+from .models import ConsultingEngagement, load_engagement
 
 
 COMMIT_PATTERN = re.compile(r"[0-9a-f]{40}")
@@ -82,7 +83,8 @@ def validate_feedback(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
 
 def run_trial(root: Path) -> dict[str, Any]:
     root = root.resolve()
-    memo = ConsultingCopilot().analyze(load_engagement(root / "data/sample_engagement.json"))
+    engagement_path = root / "data/sample_engagement.json"
+    memo = ConsultingCopilot().analyze(load_engagement(engagement_path))
     graph = build_evidence_lineage(memo)
     bad_memo = copy.deepcopy(memo)
     bad_memo["findings"][0]["evidence_ids"] = ["E-UNKNOWN"]
@@ -91,15 +93,23 @@ def run_trial(root: Path) -> dict[str, Any]:
         build_evidence_lineage(bad_memo)
     except ValueError as exc:
         failure_closed = "Unknown evidence citation" in str(exc)
+    conflict_payload = json.loads(engagement_path.read_text(encoding="utf-8"))
+    conflict_payload["evidence"].append({
+        "evidence_id": "E-07", "title": "Synthetic conflict extract", "source_type": "internal_record",
+        "collected_at": "2026-08-01", "claim": "A second extract reports a five-hour first response.",
+        "metric": "first_response_hours", "value": 5, "unit": "hours", "reliability": "verified",
+    })
+    conflict_memo = ConsultingCopilot().analyze(ConsultingEngagement.from_mapping(conflict_payload))
+    adjudication = validate_adjudication_receipt(conflict_memo, load_json_object(root / "evidence/adjudication_receipt.json"))
     evidence = validate_evidence_index(root, load_json_object(root / "evidence/evidence_index.json"))
     external = validate_external_intake(load_json_object(root / "evidence/external_intake.json"))
     feedback = validate_feedback(root, load_json_object(root / "evidence/feedback_case.json"))
-    core_passed = memo["status"] == "recommendation_ready" and graph["summary"]["claim_nodes"] == 9 and graph["summary"]["all_claims_cited"] and not graph["summary"]["ineligible_evidence_used"] and failure_closed
+    core_passed = memo["status"] == "recommendation_ready" and graph["summary"]["claim_nodes"] == 9 and graph["summary"]["all_claims_cited"] and not graph["summary"]["ineligible_evidence_used"] and failure_closed and conflict_memo["status"] == "evidence_conflict" and adjudication["passed"]
     return {
         "schema_version": "1.0", "trial_id": "TRIAL-CONSULTING-001", "source_data": "synthetic",
         "overall_passed": core_passed and feedback["passed"] and all(item["passed"] for item in evidence + external),
         "core_flow": {"passed": core_passed, "memo_status": memo["status"], "evidence_nodes": graph["summary"]["evidence_nodes"], "claim_nodes": graph["summary"]["claim_nodes"], "unknown_citation_blocked": failure_closed, "external_actions_executed": 0},
-        "feedback_regression": feedback, "external_intake": external, "evidence_index": evidence,
+        "feedback_regression": feedback, "external_intake": external, "adjudication": adjudication, "evidence_index": evidence,
         "boundaries": load_json_object(root / "evidence/evidence_index.json")["boundaries"],
     }
 
@@ -112,7 +122,7 @@ def write_trial_report(root: Path, json_path: Path, markdown_path: Path) -> dict
     markdown_path.write_text("\n".join([
         "# Consulting Copilot Trial Readiness", "", "> Synthetic offline verification; no model call, research claim or business action is executed.", "",
         f"- Overall: **{'PASS' if report['overall_passed'] else 'FAIL'}**", f"- Memo status: `{report['core_flow']['memo_status']}`",
-        f"- Cited claim nodes: {report['core_flow']['claim_nodes']}", f"- Unknown citation blocked: {'yes' if report['core_flow']['unknown_citation_blocked'] else 'no'}", "",
+        f"- Cited claim nodes: {report['core_flow']['claim_nodes']}", f"- Unknown citation blocked: {'yes' if report['core_flow']['unknown_citation_blocked'] else 'no'}", f"- Conflict adjudication receipt: {'pass' if report['adjudication']['passed'] else 'fail'}", "",
         "## Pilot boundary", "", *[f"- {item}" for item in report["boundaries"]], "",
     ]), encoding="utf-8")
     return report

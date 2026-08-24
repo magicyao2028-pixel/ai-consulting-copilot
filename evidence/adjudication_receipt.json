@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "receipt_id": "ADJ-SYNTH-CONSULT-001-2026-08-24",
+  "engagement_id": "SYNTH-CONSULT-001",
+  "memo_status": "evidence_conflict",
+  "conflict_metrics": ["first_response_hours"],
+  "conflicting_evidence_ids": ["E-03", "E-07"],
+  "reviewer_alias": "synthetic-operations-reviewer",
+  "decision": "retain_block",
+  "rationale": "Keep the recommendation blocked until the two current response-time extracts are reconciled by an accountable reviewer.",
+  "recorded_on": "2026-08-24",
+  "changes_applied": false,
+  "boundary": "This receipt records accountability; it does not promote evidence, rewrite the memo or bypass the conflict block."
+}
