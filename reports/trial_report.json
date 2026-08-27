@@ -33,6 +33,27 @@
     "decision": "retain_block",
     "passed": true
   },
+  "conflict_triage": {
+    "schema_version": "1.0",
+    "triage_type": "evidence-conflict work item",
+    "engagement_id": "SYNTH-CONSULT-001",
+    "status": "blocked_pending_human_decision",
+    "severity": "medium",
+    "conflict_count": 1,
+    "conflict_metrics": [
+      "first_response_hours"
+    ],
+    "conflicting_evidence_ids": [
+      "E-03",
+      "E-07"
+    ],
+    "adjudication_decision": "retain_block",
+    "recommended_next_action": "keep_release_block_and_request_owner_decision",
+    "changes_applied": false,
+    "external_actions_executed": 0,
+    "human_approval_required": true,
+    "boundary": "This triage item organizes follow-up only; it does not promote evidence, rewrite the memo or execute outreach."
+  },
   "evidence_index": [
     {
       "claim_id": "CONSULT-BUSINESS-001",
@@ -93,6 +114,16 @@
         "src/consulting_copilot/adjudication.py",
         "evidence/adjudication_receipt.json",
         "tests/test_adjudication.py"
+      ],
+      "passed": true
+    },
+    {
+      "claim_id": "CONSULT-TRIAGE-001",
+      "artifact_paths": [
+        "src/consulting_copilot/conflict_triage.py",
+        "src/consulting_copilot/trial.py",
+        "tests/test_adjudication.py",
+        "reports/trial_report.json"
       ],
       "passed": true
     }

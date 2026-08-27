@@ -5,6 +5,7 @@ from pathlib import Path
 
 from consulting_copilot import ConsultingCopilot, ConsultingEngagement, load_engagement
 from consulting_copilot.adjudication import build_adjudication_receipt, validate_adjudication_receipt
+from consulting_copilot.conflict_triage import build_conflict_triage
 
 
 ROOT = Path(__file__).parents[1]
@@ -50,6 +51,18 @@ class AdjudicationTests(unittest.TestCase):
         changed["changes_applied"] = True
         with self.assertRaisesRegex(ValueError, "no changes"):
             validate_adjudication_receipt(memo, changed)
+
+    def test_conflict_triage_is_non_executing_and_actionable(self):
+        memo = self._conflict_memo()
+        receipt = build_adjudication_receipt(
+            memo, reviewer_alias="reviewer-01", decision="request_recollection",
+            rationale="Collect a targeted source for the conflicting metric.", recorded_on="2026-08-24",
+        )
+        triage = build_conflict_triage(memo, receipt)
+        self.assertEqual(triage["status"], "blocked_pending_human_decision")
+        self.assertEqual(triage["recommended_next_action"], "collect_targeted_recollection_for_conflicting_metrics")
+        self.assertFalse(triage["changes_applied"])
+        self.assertEqual(triage["external_actions_executed"], 0)
 
 
 if __name__ == "__main__":

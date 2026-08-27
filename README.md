@@ -23,6 +23,7 @@ Small and medium-sized businesses often discuss AI pilots with incomplete baseli
 - excludes stale and future-dated evidence using source-specific age limits;
 - blocks recommendations when current metric values materially conflict;
 - records an accountable human adjudication receipt for a conflict while leaving the recommendation blocked and the evidence unchanged;
+- turns a validated conflict receipt into a non-executing triage work item with an explicit next action;
 - normalizes structured synthetic interview notes into candidate claims without treating them as evidence;
 - requires an attributable human decision before an observation can enter the evidence register;
 - validates named decision-threshold scenarios and compares them against one governed evidence register;
@@ -132,7 +133,8 @@ The conflict fixture demonstrates a separate adjudication receipt: an accountabl
 - v0.3: interview-note normalization and claim extraction review;
 - v0.4: configurable decision thresholds and scenario comparison;
 - v0.5: evidence lineage and trial-readiness package;
-- v0.6: accountable conflict-adjudication receipt that preserves citation and abstention gates (current);
+- v0.6: accountable conflict-adjudication receipt that preserves citation and abstention gates;
+- v0.7: non-executing conflict-triage work item derived from the validated receipt (current);
 - v1.0: controlled private pilot with authenticated reviewers.
 
 ## License

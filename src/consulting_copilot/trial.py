@@ -9,6 +9,7 @@ from typing import Any
 
 from .copilot import ConsultingCopilot
 from .adjudication import validate_adjudication_receipt
+from .conflict_triage import build_conflict_triage
 from .lineage import build_evidence_lineage
 from .models import ConsultingEngagement, load_engagement
 
@@ -100,16 +101,18 @@ def run_trial(root: Path) -> dict[str, Any]:
         "metric": "first_response_hours", "value": 5, "unit": "hours", "reliability": "verified",
     })
     conflict_memo = ConsultingCopilot().analyze(ConsultingEngagement.from_mapping(conflict_payload))
-    adjudication = validate_adjudication_receipt(conflict_memo, load_json_object(root / "evidence/adjudication_receipt.json"))
+    receipt_payload = load_json_object(root / "evidence/adjudication_receipt.json")
+    adjudication = validate_adjudication_receipt(conflict_memo, receipt_payload)
+    triage = build_conflict_triage(conflict_memo, receipt_payload)
     evidence = validate_evidence_index(root, load_json_object(root / "evidence/evidence_index.json"))
     external = validate_external_intake(load_json_object(root / "evidence/external_intake.json"))
     feedback = validate_feedback(root, load_json_object(root / "evidence/feedback_case.json"))
-    core_passed = memo["status"] == "recommendation_ready" and graph["summary"]["claim_nodes"] == 9 and graph["summary"]["all_claims_cited"] and not graph["summary"]["ineligible_evidence_used"] and failure_closed and conflict_memo["status"] == "evidence_conflict" and adjudication["passed"]
+    core_passed = memo["status"] == "recommendation_ready" and graph["summary"]["claim_nodes"] == 9 and graph["summary"]["all_claims_cited"] and not graph["summary"]["ineligible_evidence_used"] and failure_closed and conflict_memo["status"] == "evidence_conflict" and adjudication["passed"] and triage["status"] == "blocked_pending_human_decision" and triage["changes_applied"] is False
     return {
         "schema_version": "1.0", "trial_id": "TRIAL-CONSULTING-001", "source_data": "synthetic",
         "overall_passed": core_passed and feedback["passed"] and all(item["passed"] for item in evidence + external),
         "core_flow": {"passed": core_passed, "memo_status": memo["status"], "evidence_nodes": graph["summary"]["evidence_nodes"], "claim_nodes": graph["summary"]["claim_nodes"], "unknown_citation_blocked": failure_closed, "external_actions_executed": 0},
-        "feedback_regression": feedback, "external_intake": external, "adjudication": adjudication, "evidence_index": evidence,
+        "feedback_regression": feedback, "external_intake": external, "adjudication": adjudication, "conflict_triage": triage, "evidence_index": evidence,
         "boundaries": load_json_object(root / "evidence/evidence_index.json")["boundaries"],
     }
 
@@ -122,7 +125,7 @@ def write_trial_report(root: Path, json_path: Path, markdown_path: Path) -> dict
     markdown_path.write_text("\n".join([
         "# Consulting Copilot Trial Readiness", "", "> Synthetic offline verification; no model call, research claim or business action is executed.", "",
         f"- Overall: **{'PASS' if report['overall_passed'] else 'FAIL'}**", f"- Memo status: `{report['core_flow']['memo_status']}`",
-        f"- Cited claim nodes: {report['core_flow']['claim_nodes']}", f"- Unknown citation blocked: {'yes' if report['core_flow']['unknown_citation_blocked'] else 'no'}", f"- Conflict adjudication receipt: {'pass' if report['adjudication']['passed'] else 'fail'}", "",
+        f"- Cited claim nodes: {report['core_flow']['claim_nodes']}", f"- Unknown citation blocked: {'yes' if report['core_flow']['unknown_citation_blocked'] else 'no'}", f"- Conflict adjudication receipt: {'pass' if report['adjudication']['passed'] else 'fail'}", f"- Conflict triage: `{report['conflict_triage']['recommended_next_action']}`", "",
         "## Pilot boundary", "", *[f"- {item}" for item in report["boundaries"]], "",
     ]), encoding="utf-8")
     return report

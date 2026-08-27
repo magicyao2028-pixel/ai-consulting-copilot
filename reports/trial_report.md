@@ -7,6 +7,7 @@
 - Cited claim nodes: 9
 - Unknown citation blocked: yes
 - Conflict adjudication receipt: pass
+- Conflict triage: `keep_release_block_and_request_owner_decision`
 
 ## Pilot boundary
 

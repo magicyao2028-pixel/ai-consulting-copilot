@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.0 - 2026-08-27
+
+- added a conflict-triage work item derived from the validated adjudication receipt;
+- exposed decision-specific next actions while keeping evidence blocked and changes unapplied;
+- extended trial and regression evidence without adding model, provider or external-action paths.
+
 ## 0.6.0 - 2026-08-24
 
 - added an accountable conflict-adjudication receipt with reviewer alias, conflict evidence IDs, rationale and explicit decision;
