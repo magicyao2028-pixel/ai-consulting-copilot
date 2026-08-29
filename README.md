@@ -32,6 +32,7 @@ Small and medium-sized businesses often discuss AI pilots with incomplete baseli
 - produces a human-governed 30-day pilot memo in JSON and Markdown.
 - builds a machine-readable evidence-lineage graph and fails closed on unknown or decision-ineligible citations;
 - exposes a clean offline trial and eight-claim evidence index.
+- exposes triage owner-action status and completion criteria without executing outreach or changing evidence.
 
 ## What this repository demonstrates
 
@@ -134,7 +135,8 @@ The conflict fixture demonstrates a separate adjudication receipt: an accountabl
 - v0.4: configurable decision thresholds and scenario comparison;
 - v0.5: evidence lineage and trial-readiness package;
 - v0.6: accountable conflict-adjudication receipt that preserves citation and abstention gates;
-- v0.7: non-executing conflict-triage work item derived from the validated receipt (current);
+- v0.7: non-executing conflict-triage work item derived from the validated receipt;
+- v0.8: bounded triage outcome report with owner-action lifecycle (current);
 - v1.0: controlled private pilot with authenticated reviewers.
 
 ## License

@@ -6,6 +6,7 @@ from pathlib import Path
 from consulting_copilot import ConsultingCopilot, ConsultingEngagement, load_engagement
 from consulting_copilot.adjudication import build_adjudication_receipt, validate_adjudication_receipt
 from consulting_copilot.conflict_triage import build_conflict_triage
+from consulting_copilot.triage_report import build_triage_outcome_report
 
 
 ROOT = Path(__file__).parents[1]
@@ -63,6 +64,31 @@ class AdjudicationTests(unittest.TestCase):
         self.assertEqual(triage["recommended_next_action"], "collect_targeted_recollection_for_conflicting_metrics")
         self.assertFalse(triage["changes_applied"])
         self.assertEqual(triage["external_actions_executed"], 0)
+
+    def test_triage_outcome_report_exposes_lifecycle_without_execution(self):
+        memo = self._conflict_memo()
+        receipt = build_adjudication_receipt(
+            memo, reviewer_alias="reviewer-01", decision="reconcile",
+            rationale="Compare the conflicting sources before recommendation.", recorded_on="2026-08-24",
+        )
+        triage = build_conflict_triage(memo, receipt)
+        report = build_triage_outcome_report(triage, receipt)
+        self.assertEqual(report["status"], "open")
+        self.assertEqual(report["owner_action_status"], "awaiting_source_reconciliation")
+        self.assertFalse(report["changes_applied"])
+        self.assertEqual(report["external_actions_executed"], 0)
+
+    def test_triage_outcome_report_rejects_mismatched_receipt(self):
+        memo = self._conflict_memo()
+        receipt = build_adjudication_receipt(
+            memo, reviewer_alias="reviewer-01", decision="retain_block",
+            rationale="Keep the conflict blocked.", recorded_on="2026-08-24",
+        )
+        triage = build_conflict_triage(memo, receipt)
+        changed = dict(receipt)
+        changed["decision"] = "reconcile"
+        with self.assertRaisesRegex(ValueError, "does not match"):
+            build_triage_outcome_report(triage, changed)
 
 
 if __name__ == "__main__":

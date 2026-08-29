@@ -16,12 +16,13 @@ from .scenarios import compare_scenarios
 from .lineage import build_evidence_lineage, write_lineage
 from .adjudication import build_adjudication_receipt, validate_adjudication_receipt
 from .conflict_triage import build_conflict_triage
+from .triage_report import build_triage_outcome_report
 
 __all__ = [
     "DEFAULT_THRESHOLDS", "ConsultingCopilot", "ConsultingEngagement", "DecisionScenario",
     "DecisionThresholds", "EvidenceItem", "compare_scenarios", "load_engagement", "load_scenarios",
     "normalize_interview_notes", "review_candidate_claims", "render_markdown",
     "build_evidence_lineage", "write_lineage", "build_adjudication_receipt", "validate_adjudication_receipt",
-    "build_conflict_triage",
+    "build_conflict_triage", "build_triage_outcome_report",
 ]
-__version__ = "0.7.0"
+__version__ = "0.8.0"

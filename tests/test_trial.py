@@ -15,6 +15,8 @@ class TrialTests(unittest.TestCase):
         self.assertTrue(report["overall_passed"])
         self.assertEqual(report["core_flow"]["claim_nodes"], 9)
         self.assertTrue(report["core_flow"]["unknown_citation_blocked"])
+        self.assertEqual(report["triage_outcome_report"]["status"], "open")
+        self.assertFalse(report["triage_outcome_report"]["changes_applied"])
 
     def test_external_intake_requires_full_sha(self):
         payload = load_json_object(ROOT / "evidence/external_intake.json")

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.0 - 2026-08-29
+
+- added a deterministic triage outcome report with owner-action status and completion criteria;
+- retained blocked, unapplied and no-external-action boundaries;
+- added receipt-matching validation, trial evidence and regression coverage.
+
 ## 0.7.0 - 2026-08-27
 
 - added a conflict-triage work item derived from the validated adjudication receipt;
