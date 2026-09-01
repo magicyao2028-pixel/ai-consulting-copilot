@@ -11,6 +11,7 @@ from .copilot import ConsultingCopilot
 from .adjudication import validate_adjudication_receipt
 from .conflict_triage import build_conflict_triage
 from .triage_report import build_triage_outcome_report
+from .triage_history import summarize_triage_history
 from .lineage import build_evidence_lineage
 from .models import ConsultingEngagement, load_engagement
 
@@ -106,15 +107,19 @@ def run_trial(root: Path) -> dict[str, Any]:
     adjudication = validate_adjudication_receipt(conflict_memo, receipt_payload)
     triage = build_conflict_triage(conflict_memo, receipt_payload)
     triage_report = build_triage_outcome_report(triage, receipt_payload)
+    triage_history = summarize_triage_history(
+        triage_report,
+        json.loads((root / "data/triage_history.json").read_text(encoding="utf-8")),
+    )
     evidence = validate_evidence_index(root, load_json_object(root / "evidence/evidence_index.json"))
     external = validate_external_intake(load_json_object(root / "evidence/external_intake.json"))
     feedback = validate_feedback(root, load_json_object(root / "evidence/feedback_case.json"))
-    core_passed = memo["status"] == "recommendation_ready" and graph["summary"]["claim_nodes"] == 9 and graph["summary"]["all_claims_cited"] and not graph["summary"]["ineligible_evidence_used"] and failure_closed and conflict_memo["status"] == "evidence_conflict" and adjudication["passed"] and triage["status"] == "blocked_pending_human_decision" and triage["changes_applied"] is False and triage_report["status"] == "open" and triage_report["changes_applied"] is False and triage_report["external_actions_executed"] == 0
+    core_passed = memo["status"] == "recommendation_ready" and graph["summary"]["claim_nodes"] == 9 and graph["summary"]["all_claims_cited"] and not graph["summary"]["ineligible_evidence_used"] and failure_closed and conflict_memo["status"] == "evidence_conflict" and adjudication["passed"] and triage["status"] == "blocked_pending_human_decision" and triage["changes_applied"] is False and triage_report["status"] == "open" and triage_report["changes_applied"] is False and triage_report["external_actions_executed"] == 0 and triage_history["entry_count"] == 2 and triage_history["evidence_promoted"] is False
     return {
         "schema_version": "1.0", "trial_id": "TRIAL-CONSULTING-001", "source_data": "synthetic",
         "overall_passed": core_passed and feedback["passed"] and all(item["passed"] for item in evidence + external),
         "core_flow": {"passed": core_passed, "memo_status": memo["status"], "evidence_nodes": graph["summary"]["evidence_nodes"], "claim_nodes": graph["summary"]["claim_nodes"], "unknown_citation_blocked": failure_closed, "external_actions_executed": 0},
-        "feedback_regression": feedback, "external_intake": external, "adjudication": adjudication, "conflict_triage": triage, "triage_outcome_report": triage_report, "evidence_index": evidence,
+        "feedback_regression": feedback, "external_intake": external, "adjudication": adjudication, "conflict_triage": triage, "triage_outcome_report": triage_report, "triage_history": triage_history, "evidence_index": evidence,
         "boundaries": load_json_object(root / "evidence/evidence_index.json")["boundaries"],
     }
 

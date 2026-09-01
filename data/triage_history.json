@@ -1,0 +1,4 @@
+[
+  {"event_id": "TRIAGE-EVENT-001", "engagement_id": "SYNTH-CONSULT-001", "status": "open", "recorded_on": "2026-08-24", "changes_applied": false},
+  {"event_id": "TRIAGE-EVENT-002", "engagement_id": "SYNTH-CONSULT-001", "status": "awaiting_owner_decision", "recorded_on": "2026-08-25", "changes_applied": false}
+]

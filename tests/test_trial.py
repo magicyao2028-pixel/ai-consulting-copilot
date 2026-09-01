@@ -13,6 +13,8 @@ class TrialTests(unittest.TestCase):
     def test_complete_trial_passes_and_blocks_unknown_citation(self):
         report = run_trial(ROOT)
         self.assertTrue(report["overall_passed"])
+        self.assertEqual(report["triage_history"]["entry_count"], 2)
+        self.assertFalse(report["triage_history"]["changes_applied"])
         self.assertEqual(report["core_flow"]["claim_nodes"], 9)
         self.assertTrue(report["core_flow"]["unknown_citation_blocked"])
         self.assertEqual(report["triage_outcome_report"]["status"], "open")

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.0 - 2026-09-01
+
+- Added chronological triage-history visibility with explicit no-promotion and no-outreach boundaries.
+
 ## 0.8.0 - 2026-08-29
 
 - added a deterministic triage outcome report with owner-action status and completion criteria;

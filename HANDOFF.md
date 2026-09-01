@@ -2,8 +2,8 @@
 
 ## Current state
 
-- Release stage: v0.8 trial-readiness prototype.
-- Maintenance completed: 7/10.
+- Release stage: v0.9 trial-readiness prototype.
+- Maintenance completed: 8/10.
 - M3 flow: validate named threshold scenarios -> reuse one governed evidence register -> compare policy outcomes -> surface recommendation sensitivity without weakening evidence gates.
 - M2 flow: validate synthetic consented notes -> normalize candidate claims -> keep evidence register empty -> record attributable human decisions -> promote approved observations as indicative evidence -> run existing evidence gates.
 - Decision flow: validate evidence -> assess reliability and age -> detect current metric conflicts -> enforce minimum metrics -> create cited findings/options/risks -> recommend or abstain -> render memo.
@@ -13,6 +13,7 @@
 - M5 evidence: accountable conflict-adjudication receipt with `retain_block`, `request_recollection` and `reconcile` decisions; the fixture records a reviewer alias, conflict IDs and rationale while enforcing `changes_applied: false`. The underlying conflict memo remains blocked.
 - M6 evidence: deterministic conflict-triage work item maps the three receipt decisions to bounded next actions while keeping the memo blocked, `changes_applied: false`, and external actions at zero.
 - M7 evidence: deterministic triage outcome reporting exposes owner-action status and completion criteria while keeping evidence blocked, changes unapplied and external actions at zero.
+- M8 evidence: chronological triage-history visibility exposes lifecycle status while keeping evidence blocked, changes unapplied and external actions at zero.
 
 ## Verification
 
@@ -28,7 +29,7 @@ PYTHONPATH=src python -m consulting_copilot.trial_cli
 
 ## Next maintenance round
 
-M8 should add one bounded review-history improvement around triage outcome replay. Do not promote evidence, rewrite a memo or add a model/provider path without a separate evidence-backed contract.
+M9 should add one bounded reviewer-feedback improvement. Do not promote evidence, rewrite a memo or add a model/provider path without a separate evidence-backed contract.
 
 ## Known limitations
 

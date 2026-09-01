@@ -78,6 +78,34 @@
     "human_approval_required": true,
     "boundary": "This report makes triage status visible for review; it does not promote evidence, rewrite a memo or execute outreach."
   },
+  "triage_history": {
+    "history_version": "0.8",
+    "entry_count": 2,
+    "status_counts": {
+      "awaiting_owner_decision": 1,
+      "open": 1
+    },
+    "entries": [
+      {
+        "event_id": "TRIAGE-EVENT-001",
+        "engagement_id": "SYNTH-CONSULT-001",
+        "status": "open",
+        "recorded_on": "2026-08-24",
+        "changes_applied": false
+      },
+      {
+        "event_id": "TRIAGE-EVENT-002",
+        "engagement_id": "SYNTH-CONSULT-001",
+        "status": "awaiting_owner_decision",
+        "recorded_on": "2026-08-25",
+        "changes_applied": false
+      }
+    ],
+    "changes_applied": false,
+    "external_actions_executed": 0,
+    "evidence_promoted": false,
+    "boundary": "History makes triage lifecycle visible only; it does not promote evidence, rewrite the memo or execute outreach."
+  },
   "evidence_index": [
     {
       "claim_id": "CONSULT-BUSINESS-001",
@@ -156,6 +184,16 @@
       "artifact_paths": [
         "src/consulting_copilot/triage_report.py",
         "tests/test_adjudication.py",
+        "reports/trial_report.json"
+      ],
+      "passed": true
+    },
+    {
+      "claim_id": "CONSULT-TRIAGE-HISTORY-001",
+      "artifact_paths": [
+        "src/consulting_copilot/triage_history.py",
+        "data/triage_history.json",
+        "tests/test_triage_history.py",
         "reports/trial_report.json"
       ],
       "passed": true
