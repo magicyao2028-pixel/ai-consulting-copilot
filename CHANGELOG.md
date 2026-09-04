@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0 - 2026-09-04
+
+- added accepted-only synthetic reviewer-feedback replay against triage history;
+- excluded pending/rejected records and kept evidence promotion, memo rewrites and outreach disabled;
+- added chronological/reference validation, regression tests and trial evidence.
+
 ## 0.9.0 - 2026-09-01
 
 - Added chronological triage-history visibility with explicit no-promotion and no-outreach boundaries.

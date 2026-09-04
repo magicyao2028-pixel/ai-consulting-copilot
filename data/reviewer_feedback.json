@@ -1,0 +1,4 @@
+[
+  {"feedback_id": "CONSULT-FB-001", "event_id": "TRIAGE-EVENT-001", "recorded_on": "2026-08-26", "classification": "usability", "status": "accepted", "summary": "Owner queue should expose the conflict event and its bounded next action.", "applied": false},
+  {"feedback_id": "CONSULT-FB-002", "event_id": "TRIAGE-EVENT-002", "recorded_on": "2026-08-27", "classification": "requirement", "status": "pending", "summary": "Consider a future closure-state filter after owner approval exists.", "applied": false}
+]

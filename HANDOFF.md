@@ -2,8 +2,8 @@
 
 ## Current state
 
-- Release stage: v0.9 trial-readiness prototype.
-- Maintenance completed: 8/10.
+- Release stage: v1.0 trial-readiness prototype.
+- Maintenance completed: 9/10.
 - M3 flow: validate named threshold scenarios -> reuse one governed evidence register -> compare policy outcomes -> surface recommendation sensitivity without weakening evidence gates.
 - M2 flow: validate synthetic consented notes -> normalize candidate claims -> keep evidence register empty -> record attributable human decisions -> promote approved observations as indicative evidence -> run existing evidence gates.
 - Decision flow: validate evidence -> assess reliability and age -> detect current metric conflicts -> enforce minimum metrics -> create cited findings/options/risks -> recommend or abstain -> render memo.
@@ -14,6 +14,7 @@
 - M6 evidence: deterministic conflict-triage work item maps the three receipt decisions to bounded next actions while keeping the memo blocked, `changes_applied: false`, and external actions at zero.
 - M7 evidence: deterministic triage outcome reporting exposes owner-action status and completion criteria while keeping evidence blocked, changes unapplied and external actions at zero.
 - M8 evidence: chronological triage-history visibility exposes lifecycle status while keeping evidence blocked, changes unapplied and external actions at zero.
+- M9 evidence: accepted-only synthetic reviewer-feedback replay references current triage events, excludes pending/rejected records and keeps evidence promotion, memo rewrites and outreach disabled.
 
 ## Verification
 
@@ -29,7 +30,7 @@ PYTHONPATH=src python -m consulting_copilot.trial_cli
 
 ## Next maintenance round
 
-M9 should add one bounded reviewer-feedback improvement. Do not promote evidence, rewrite a memo or add a model/provider path without a separate evidence-backed contract.
+M10 should add one bounded replay-result reconciliation or stale-item visibility improvement. Do not promote evidence, rewrite a memo or add a model/provider path without a separate evidence-backed contract.
 
 ## Known limitations
 
