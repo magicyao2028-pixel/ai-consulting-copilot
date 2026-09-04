@@ -16,6 +16,37 @@
     "source_type": "synthetic",
     "passed": true
   },
+  "feedback_replay": {
+    "schema_version": "1.0",
+    "record_count": 2,
+    "status_counts": {
+      "accepted": 1,
+      "pending": 1
+    },
+    "replayed_count": 1,
+    "excluded_count": 1,
+    "replayed": [
+      {
+        "feedback_id": "CONSULT-FB-001",
+        "event_id": "TRIAGE-EVENT-001",
+        "status": "accepted",
+        "passed": true
+      }
+    ],
+    "excluded": [
+      {
+        "feedback_id": "CONSULT-FB-002",
+        "event_id": "TRIAGE-EVENT-002",
+        "status": "pending",
+        "passed": true
+      }
+    ],
+    "changes_applied": false,
+    "evidence_promoted": false,
+    "memo_rewritten": false,
+    "external_actions_executed": 0,
+    "boundary": "Only accepted synthetic feedback is replayed as advisory regression metadata; no evidence is promoted, memo is rewritten or outreach is executed."
+  },
   "external_intake": [
     {
       "repository": "https://github.com/OpenLineage/OpenLineage",
@@ -194,6 +225,16 @@
         "src/consulting_copilot/triage_history.py",
         "data/triage_history.json",
         "tests/test_triage_history.py",
+        "reports/trial_report.json"
+      ],
+      "passed": true
+    },
+    {
+      "claim_id": "CONSULT-FEEDBACK-REPLAY-001",
+      "artifact_paths": [
+        "src/consulting_copilot/feedback_replay.py",
+        "data/reviewer_feedback.json",
+        "tests/test_feedback_replay.py",
         "reports/trial_report.json"
       ],
       "passed": true
