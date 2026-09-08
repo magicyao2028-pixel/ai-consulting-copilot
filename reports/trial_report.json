@@ -275,7 +275,7 @@
         "src/consulting_copilot/feedback_reconciliation.py",
         "data/reviewer_feedback.json",
         "tests/test_feedback_reconciliation.py",
-        "src/consulting_copilot/trial.py"
+        "reports/trial_report.json"
       ],
       "passed": true
     }
