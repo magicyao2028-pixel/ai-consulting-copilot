@@ -10,6 +10,7 @@
 - Conflict triage: `keep_release_block_and_request_owner_decision`
 - Triage outcome status: `awaiting_owner_decision`
 - Reviewer feedback replay: 1 accepted, 1 excluded
+- Feedback reconciliation: 1 reconciled, 1 stale
 
 ## Pilot boundary
 

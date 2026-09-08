@@ -47,6 +47,36 @@
     "external_actions_executed": 0,
     "boundary": "Only accepted synthetic feedback is replayed as advisory regression metadata; no evidence is promoted, memo is rewritten or outreach is executed."
   },
+  "feedback_reconciliation": {
+    "schema_version": "1.0",
+    "as_of_date": "2026-09-08",
+    "cutoff_date": "2026-09-01",
+    "reconciled_count": 1,
+    "excluded_count": 1,
+    "stale_count": 1,
+    "reconciled": [
+      {
+        "feedback_id": "CONSULT-FB-001",
+        "event_id": "TRIAGE-EVENT-001",
+        "feedback_status": "accepted",
+        "triage_status": "open",
+        "stale": true
+      }
+    ],
+    "excluded": [
+      {
+        "feedback_id": "CONSULT-FB-002",
+        "event_id": "TRIAGE-EVENT-002",
+        "feedback_status": "pending",
+        "triage_status": "awaiting_owner_decision"
+      }
+    ],
+    "changes_applied": false,
+    "evidence_promoted": false,
+    "memo_rewritten": false,
+    "external_actions_executed": 0,
+    "boundary": "Reconciliation exposes accepted feedback still attached to open triage events; it does not promote evidence, rewrite the memo or execute outreach."
+  },
   "external_intake": [
     {
       "repository": "https://github.com/OpenLineage/OpenLineage",
@@ -236,6 +266,16 @@
         "data/reviewer_feedback.json",
         "tests/test_feedback_replay.py",
         "reports/trial_report.json"
+      ],
+      "passed": true
+    },
+    {
+      "claim_id": "CONSULT-FEEDBACK-RECONCILIATION-001",
+      "artifact_paths": [
+        "src/consulting_copilot/feedback_reconciliation.py",
+        "data/reviewer_feedback.json",
+        "tests/test_feedback_reconciliation.py",
+        "src/consulting_copilot/trial.py"
       ],
       "passed": true
     }

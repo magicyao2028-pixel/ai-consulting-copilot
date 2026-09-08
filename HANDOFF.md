@@ -3,7 +3,7 @@
 ## Current state
 
 - Release stage: v1.0 trial-readiness prototype.
-- Maintenance completed: 9/10.
+- Maintenance completed: 10/10.
 - M3 flow: validate named threshold scenarios -> reuse one governed evidence register -> compare policy outcomes -> surface recommendation sensitivity without weakening evidence gates.
 - M2 flow: validate synthetic consented notes -> normalize candidate claims -> keep evidence register empty -> record attributable human decisions -> promote approved observations as indicative evidence -> run existing evidence gates.
 - Decision flow: validate evidence -> assess reliability and age -> detect current metric conflicts -> enforce minimum metrics -> create cited findings/options/risks -> recommend or abstain -> render memo.
@@ -28,9 +28,15 @@ PYTHONPATH=src python -m consulting_copilot.lineage_cli
 PYTHONPATH=src python -m consulting_copilot.trial_cli
 ```
 
-## Next maintenance round
+## Maintenance status
 
-M10 should add one bounded replay-result reconciliation or stale-item visibility improvement. Do not promote evidence, rewrite a memo or add a model/provider path without a separate evidence-backed contract.
+The planned ten-round maintenance sequence is complete. Do not promote evidence, rewrite a memo or add a model/provider path without a separate evidence-backed contract.
+
+## M10 evidence
+
+- Added deterministic accepted-feedback reconciliation against the current triage-history event for each referenced work item.
+- Pending feedback remains excluded and stale open triage items are surfaced at an explicit analysis date.
+- Reconciliation remains descriptive: it applies no changes, promotes no evidence, rewrites no memo and performs no external action.
 
 ## Known limitations
 

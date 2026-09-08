@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.0 - 2026-09-08
+
+- added deterministic accepted-feedback reconciliation against current triage history;
+- excluded pending records and surfaced stale open work items at an explicit analysis date;
+- preserved no-change, no-evidence-promotion, no-memo-rewrite and no-external-action boundaries.
+
 ## 1.0.0 - 2026-09-04
 
 - added accepted-only synthetic reviewer-feedback replay against triage history;
