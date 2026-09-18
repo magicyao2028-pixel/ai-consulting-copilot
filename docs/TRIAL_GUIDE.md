@@ -18,6 +18,8 @@ The v1.2 Trial additionally requires a valid actual `decision_metric_unit_receip
 
 A unit failure is not auto-converted. Review the source definition and prepare values in the declared units, then rerun. Trial PASS proves these offline checks, not measurement truth, an approved pilot, source auditing or a new static-site deployment.
 
+The ultimate Trial consumer rechecks the actual returned receipt and five uniquely identified, typed probe outcomes even if the helper retains `passed=true`. Missing/duplicate probes, changed approval/execution flags and bool/int substitutions deny PASS. The core action summary uses that same returned receipt rather than a different upstream copy.
+
 ## Failure and recovery
 
 If lineage construction fails, inspect the named claim node and evidence ID. Correct the source register or claim citation; do not delete freshness, reliability or contradiction gates to force a recommendation.

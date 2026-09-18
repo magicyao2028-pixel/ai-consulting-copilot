@@ -5,6 +5,7 @@
 - closed reproduced minutes-as-hours and missing-unit pilot-support paths by validating exact units for all three decision metrics before memo generation;
 - shared the boundary across mapping, typed-container analysis and scenarios without unit aliases/conversion or evidence changes;
 - added deterministic unit receipts, five negative Trial probes and direct receipt/governance mutation tests; preserved existing numeric and evidence gates;
+- revalidated the final helper receipt and exact typed probe outcomes, bound action summaries to that returned receipt and added retained-passed mutation regressions after independent review;
 - aligned package/import metadata and current docs at1.2.0; retained synthetic-only/source-truth/unchanged-static-site limits;
 - kept M10/10 complete: no real pilot approval, model call, measurement/source audit or external action.
 

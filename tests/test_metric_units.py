@@ -162,3 +162,85 @@ class DecisionMetricUnitTests(unittest.TestCase):
                 report = run_trial(ROOT)
             self.assertFalse(report["overall_passed"], field)
             self.assertEqual(report["memo_governance"][field], replacement)
+
+    def assert_final_unit_contract_denied(self, contract):
+        with patch("consulting_copilot.trial.run_metric_unit_trial", return_value=contract):
+            altered = run_trial(ROOT)
+        self.assertIs(altered["core_flow"]["passed"], False)
+        self.assertIs(altered["overall_passed"], False)
+        self.assertEqual(altered["decision_metric_units"], contract)
+        return altered
+
+    def test_final_helper_receipt_values_are_rechecked_with_passed_unchanged(self):
+        contract = run_trial(ROOT)["decision_metric_units"]
+        for field, value in contract["receipt"].items():
+            with self.subTest(field=field):
+                bad = copy.deepcopy(contract)
+                bad["receipt"][field] = not value if type(value) is bool else "tampered"
+                self.assertIs(bad["passed"], True)
+                self.assert_final_unit_contract_denied(bad)
+                bad = copy.deepcopy(contract)
+                del bad["receipt"][field]
+                self.assert_final_unit_contract_denied(bad)
+        bad = copy.deepcopy(contract)
+        bad["receipt"]["unvalidated_field"] = False
+        self.assert_final_unit_contract_denied(bad)
+        bad = copy.deepcopy(contract)
+        bad["receipt"]["external_actions_executed"] = 1
+        self.assertEqual(self.assert_final_unit_contract_denied(bad)["core_flow"]["external_actions_executed"], 1)
+
+    def test_final_helper_receipt_types_cannot_use_bool_int_or_float_equivalence(self):
+        contract = run_trial(ROOT)["decision_metric_units"]
+        for field, value in contract["receipt"].items():
+            if type(value) not in (bool, int):
+                continue
+            with self.subTest(field=field):
+                bad = copy.deepcopy(contract)
+                bad["receipt"][field] = int(value) if type(value) is bool else False if value == 0 else float(value)
+                self.assert_final_unit_contract_denied(bad)
+        for value in (False, 0.0):
+            bad = copy.deepcopy(contract)
+            bad["receipt"]["external_actions_executed"] = value
+            self.assertIsNone(self.assert_final_unit_contract_denied(bad)["core_flow"]["external_actions_executed"])
+
+    def test_final_negative_probe_values_and_types_are_rechecked(self):
+        contract = run_trial(ROOT)["decision_metric_units"]
+        for index in range(5):
+            for field, values in (("probe_id", ("tampered", 0)), ("metric", ("tampered", 0)),
+                                  ("input_route", ("tampered", 0)), ("rejected", (False, 1)),
+                                  ("evidence_mutated", (True, 0))):
+                for value in values:
+                    with self.subTest(index=index, field=field, value=value):
+                        bad = copy.deepcopy(contract)
+                        bad["negative_probes"][index][field] = value
+                        self.assert_final_unit_contract_denied(bad)
+                bad = copy.deepcopy(contract)
+                del bad["negative_probes"][index][field]
+                self.assert_final_unit_contract_denied(bad)
+            bad = copy.deepcopy(contract)
+            bad["negative_probes"][index]["unvalidated_field"] = False
+            self.assert_final_unit_contract_denied(bad)
+
+    def test_final_negative_probe_coverage_cannot_be_missing_duplicate_or_untyped(self):
+        contract = run_trial(ROOT)["decision_metric_units"]
+        probes = contract["negative_probes"]
+        for value in (None, [], probes[:-1], probes + probes[:1], [probes[0]] * 5, tuple(probes), [None] + probes[1:]):
+            bad = copy.deepcopy(contract)
+            bad["negative_probes"] = value
+            self.assert_final_unit_contract_denied(bad)
+
+    def test_final_contract_shape_and_passed_type_are_fail_closed(self):
+        contract = run_trial(ROOT)["decision_metric_units"]
+        for value in (False, 1, "true", None):
+            bad = copy.deepcopy(contract)
+            bad["passed"] = value
+            self.assert_final_unit_contract_denied(bad)
+        for field in contract:
+            bad = copy.deepcopy(contract)
+            del bad[field]
+            self.assert_final_unit_contract_denied(bad)
+        bad = copy.deepcopy(contract)
+        bad["unvalidated_field"] = False
+        self.assert_final_unit_contract_denied(bad)
+        for value in (None, [], True):
+            self.assert_final_unit_contract_denied(value)

@@ -25,30 +25,35 @@
     },
     "negative_probes": [
       {
+        "probe_id": "hours_as_minutes",
         "metric": "first_response_hours",
         "input_route": "mapping",
         "rejected": true,
         "evidence_mutated": false
       },
       {
+        "probe_id": "volume_per_day",
         "metric": "monthly_support_volume",
         "input_route": "mapping",
         "rejected": true,
         "evidence_mutated": false
       },
       {
+        "probe_id": "share_as_ratio",
         "metric": "repetitive_contact_share_pct",
         "input_route": "mapping",
         "rejected": true,
         "evidence_mutated": false
       },
       {
+        "probe_id": "missing_hours_unit",
         "metric": "first_response_hours",
         "input_route": "mapping",
         "rejected": true,
         "evidence_mutated": false
       },
       {
+        "probe_id": "typed_hours_as_minutes",
         "metric": "first_response_hours",
         "input_route": "typed_container",
         "rejected": true,
