@@ -5,6 +5,7 @@
 | Component | Responsibility |
 | --- | --- |
 | `models.py` | Validate engagement, evidence fields, reliability and unique IDs. |
+| `metric_units.py` | Bind the three decision metrics to exact declared units before claims; emit a non-converting, immutable-evidence receipt checked by Trial. |
 | `quality.py` | Calculate evidence age, exclude stale/future items and detect current metric conflicts. |
 | `interviews.py` | Validate synthetic notes, normalize candidate claims and enforce attributable approval. |
 | `interview_cli.py` | Export pre-review candidates and post-review evidence as separate artifacts. |

@@ -2,6 +2,60 @@
   "schema_version": "1.0",
   "trial_id": "TRIAL-CONSULTING-001",
   "source_data": "synthetic",
+  "decision_metric_units": {
+    "passed": true,
+    "receipt": {
+      "schema_version": "1.0",
+      "policy_id": "decision-metric-units-v1",
+      "required_units": {
+        "monthly_support_volume": "contacts/month",
+        "repetitive_contact_share_pct": "percent",
+        "first_response_hours": "hours"
+      },
+      "validated_evidence_ids": [
+        "E-01",
+        "E-02",
+        "E-03"
+      ],
+      "validated_metric_count": 3,
+      "unit_conversion_performed": false,
+      "evidence_mutated": false,
+      "human_approval_required": true,
+      "external_actions_executed": 0
+    },
+    "negative_probes": [
+      {
+        "metric": "first_response_hours",
+        "input_route": "mapping",
+        "rejected": true,
+        "evidence_mutated": false
+      },
+      {
+        "metric": "monthly_support_volume",
+        "input_route": "mapping",
+        "rejected": true,
+        "evidence_mutated": false
+      },
+      {
+        "metric": "repetitive_contact_share_pct",
+        "input_route": "mapping",
+        "rejected": true,
+        "evidence_mutated": false
+      },
+      {
+        "metric": "first_response_hours",
+        "input_route": "mapping",
+        "rejected": true,
+        "evidence_mutated": false
+      },
+      {
+        "metric": "first_response_hours",
+        "input_route": "typed_container",
+        "rejected": true,
+        "evidence_mutated": false
+      }
+    ]
+  },
   "overall_passed": true,
   "core_flow": {
     "passed": true,
@@ -10,6 +64,15 @@
     "claim_nodes": 9,
     "unknown_citation_blocked": true,
     "external_actions_executed": 0
+  },
+  "memo_governance": {
+    "human_approval_required": true,
+    "autonomous_customer_action": false,
+    "synthetic_public_data": true
+  },
+  "conflict_memo_governance": {
+    "human_approval_required": true,
+    "autonomous_customer_action": false
   },
   "feedback_regression": {
     "feedback_id": "FB-LINEAGE-SYN-001",
@@ -275,6 +338,15 @@
         "src/consulting_copilot/feedback_reconciliation.py",
         "data/reviewer_feedback.json",
         "tests/test_feedback_reconciliation.py",
+        "reports/trial_report.json"
+      ],
+      "passed": true
+    },
+    {
+      "claim_id": "CONSULT-METRIC-UNITS-001",
+      "artifact_paths": [
+        "src/consulting_copilot/metric_units.py",
+        "tests/test_metric_units.py",
         "reports/trial_report.json"
       ],
       "passed": true

@@ -2,7 +2,7 @@
 
 ## Current state
 
-- Release stage: v1.0 trial-readiness prototype.
+- Release stage: v1.2.0 trial-readiness prototype with post-M10 decision-metric unit hardening.
 - Maintenance completed: 10/10.
 - M3 flow: validate named threshold scenarios -> reuse one governed evidence register -> compare policy outcomes -> surface recommendation sensitivity without weakening evidence gates.
 - M2 flow: validate synthetic consented notes -> normalize candidate claims -> keep evidence register empty -> record attributable human decisions -> promote approved observations as indicative evidence -> run existing evidence gates.
@@ -48,3 +48,12 @@ The planned ten-round maintenance sequence is complete. Do not promote evidence,
 - deterministic English output only; adjudication is an auditable record, not autonomous conflict resolution;
 - structured note intake only; no recording, transcription, web research, LLM, database, authentication or real user study;
 - static page and Python output are maintained separately.
+
+## Post-M10 P3 result
+
+- Baseline: 67 tests and Trial PASS. A first-response value24 with unit minutes (or null unit) generated a finding of24 hours and pilot_supported=true.
+- Bound the three decision metrics to exact units contacts/month, percent and hours before memo claims. Both mapping and directly constructed typed-container inputs fail closed on mismatch; scenario comparison shares this gate. Existing finite/non-negative/percentage guards remain in force.
+- No automatic conversion/aliases, evidence changes or external action. Known-metric records validate even if later ineligible; non-decision metric units remain descriptive.
+- Added deterministic receipt, five negative Trial probes and direct receipt/governance mutation tests. Returned triage/history/replay/reconciliation approval, no-change/no-promotion/no-rewrite/zero-action controls are explicitly required by Trial PASS.
+- Aligned package/import metadata and current docs at1.2.0, following the historical M10 changelog1.1 entry that had not been reflected in package metadata. M10/10 stays closed, not M11.
+- Declared unit checking is not independent measurement/source verification. All fixtures are synthetic, no business effect is claimed, and the unchanged static page does not demonstrate the new Python gate.

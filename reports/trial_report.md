@@ -4,6 +4,7 @@
 
 - Overall: **PASS**
 - Memo status: `recommendation_ready`
+- Decision metric unit contract: PASS; 5 negative probes
 - Cited claim nodes: 9
 - Unknown citation blocked: yes
 - Conflict adjudication receipt: pass

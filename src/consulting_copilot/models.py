@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
 from typing import Any
+from .metric_units import validate_metric_unit
 
 
 RELIABILITY_LEVELS = {"verified", "indicative", "unverified"}
@@ -96,6 +97,7 @@ class EvidenceItem:
         if reliability not in RELIABILITY_LEVELS:
             raise ValueError(f"reliability must be one of: {', '.join(sorted(RELIABILITY_LEVELS))}")
         metric = str(value.get("metric", "")).strip() or None
+        validate_metric_unit(metric, value.get("unit"))
         raw_value = value.get("value")
         numeric_value = validate_metric_value(metric, raw_value, "evidence value") if raw_value is not None else None
         item = cls(

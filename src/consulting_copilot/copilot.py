@@ -4,6 +4,7 @@ from typing import Any
 
 from .models import DEFAULT_THRESHOLDS, ConsultingEngagement, DecisionThresholds, EvidenceItem
 from .quality import assess_evidence, select_metrics
+from .metric_units import validate_decision_metric_units
 
 
 REQUIRED_METRICS = {
@@ -21,6 +22,7 @@ class ConsultingCopilot:
         engagement: ConsultingEngagement,
         thresholds: DecisionThresholds = DEFAULT_THRESHOLDS,
     ) -> dict[str, Any]:
+        unit_receipt = validate_decision_metric_units(engagement.evidence)
         assessments = assess_evidence(engagement.evidence, engagement.analysis_date)
         eligible = [
             item for item in engagement.evidence
@@ -37,15 +39,19 @@ class ConsultingCopilot:
         ]
         metrics, conflicts = select_metrics(engagement.evidence, assessments)
         if conflicts:
-            return self._conflicted(
+            result = self._conflicted(
                 engagement, eligible, assessments, ignored, stale, future_dated, conflicts, thresholds
             )
+            result["decision_metric_unit_receipt"] = unit_receipt
+            return result
         missing = sorted(REQUIRED_METRICS.difference(metrics))
 
         if missing:
-            return self._insufficient(
+            result = self._insufficient(
                 engagement, eligible, assessments, ignored, stale, future_dated, missing, thresholds
             )
+            result["decision_metric_unit_receipt"] = unit_receipt
+            return result
 
         volume = metrics["monthly_support_volume"]
         repetitive = metrics["repetitive_contact_share_pct"]
@@ -92,6 +98,7 @@ class ConsultingCopilot:
             ))
 
         result = {
+            "decision_metric_unit_receipt": unit_receipt,
             "engagement_id": engagement.engagement_id,
             "analysis_date": engagement.analysis_date,
             "status": "recommendation_ready",

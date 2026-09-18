@@ -13,7 +13,7 @@ This portfolio edition documents an AI-application and Agent-product practice ex
 
 ## Business problem
 
-Small and medium-sized businesses often discuss AI pilots with incomplete baselines, vendor claims and unclear release gates. A polished report can still be unreliable when readers cannot trace a recommendation to its source. This v0.5 prototype therefore:
+Small and medium-sized businesses often discuss AI pilots with incomplete baselines, vendor claims and unclear release gates. A polished report can still be unreliable when readers cannot trace a recommendation to its source. This offline prototype therefore:
 
 - validates an engagement and evidence register;
 - separates verified, indicative and unverified evidence;
@@ -31,7 +31,8 @@ Small and medium-sized businesses often discuss AI pilots with incomplete baseli
 - abstains when required evidence is missing;
 - produces a human-governed 30-day pilot memo in JSON and Markdown.
 - builds a machine-readable evidence-lineage graph and fails closed on unknown or decision-ineligible citations;
-- exposes a clean offline trial and eight-claim evidence index.
+- exposes a clean offline trial and fourteen-claim evidence index;
+- binds the three decision metrics to explicit canonical units before any memo claim, without silently converting values.
 - exposes triage owner-action status and completion criteria without executing outreach or changing evidence.
 
 ## What this repository demonstrates
@@ -136,8 +137,15 @@ The conflict fixture demonstrates a separate adjudication receipt: an accountabl
 - v0.5: evidence lineage and trial-readiness package;
 - v0.6: accountable conflict-adjudication receipt that preserves citation and abstention gates;
 - v0.7: non-executing conflict-triage work item derived from the validated receipt;
-- v0.8: bounded triage outcome report with owner-action lifecycle (current);
-- v1.0: controlled private pilot with authenticated reviewers.
+- v0.8–v1.1: bounded triage outcomes/history and accepted-feedback reconciliation;
+- v1.2 (current): fail-closed declared decision-metric units and required negative Trial probes;
+- future, separately approved: controlled private pilot with authenticated reviewers.
+
+## Declared metric units (v1.2)
+
+The three decision metrics require exact explicit units: `monthly_support_volume` → `contacts/month`, `repetitive_contact_share_pct` → `percent`, `first_response_hours` → `hours`. Missing/mismatched/non-string units fail before memo claims, including typed-container API calls and scenario comparison. No automatic conversion or unit alias is performed: prepare reviewed values in the declared units first. All known-metric records are validated, even if later excluded by freshness/reliability. Other metric units remain descriptive and are not validated by this policy.
+
+`decision_metric_unit_receipt` records the policy, exact validated IDs/counts, immutable evidence, human approval and zero conversion/external action. Trial binds every actual receipt field and five negative probes into PASS. This validates declarations, not measurement definitions, source truth or consulting validity. The static page is unchanged; run the Python Trial to verify this new boundary.
 
 ## License
 

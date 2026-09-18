@@ -43,6 +43,8 @@ def render_markdown(result: dict[str, Any]) -> str:
         f"- Ignored unverified evidence: {', '.join(result.get('ignored_unverified_evidence', [])) or 'none'}",
         f"- Stale evidence: {', '.join(result.get('stale_evidence', [])) or 'none'}",
         f"- Future-dated evidence: {', '.join(result.get('future_dated_evidence', [])) or 'none'}",
+        f"- Decision metric unit policy: {result.get('decision_metric_unit_receipt', {}).get('policy_id', 'not available')}",
+        f"- Unit conversion performed: {result.get('decision_metric_unit_receipt', {}).get('unit_conversion_performed', 'not available')}",
         "- Human approval required: yes",
         "",
         "## Evidence register",

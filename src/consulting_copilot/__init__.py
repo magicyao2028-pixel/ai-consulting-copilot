@@ -28,4 +28,4 @@ __all__ = [
     "build_evidence_lineage", "write_lineage", "build_adjudication_receipt", "validate_adjudication_receipt",
     "build_conflict_triage", "build_triage_outcome_report", "summarize_triage_history", "replay_reviewer_feedback", "reconcile_feedback_with_triage",
 ]
-__version__ = "1.0.0"
+__version__ = "1.2.0"

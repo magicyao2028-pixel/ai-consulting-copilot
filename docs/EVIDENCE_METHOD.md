@@ -10,6 +10,8 @@ These labels describe input governance, not independent auditing by the program.
 
 ## Decision gate
 
+The v1.2 declared-unit boundary runs before evidence selection or memo claims. `monthly_support_volume` requires `contacts/month`; `repetitive_contact_share_pct` requires `percent`; `first_response_hours` requires `hours`. Units must be exact explicit strings; missing/mismatched declarations fail even for stale/unverified known-metric records. Mapping, typed-container analysis and scenario routes share the check. No aliases or conversion are applied, and non-decision metric units are not validated by this policy. The receipt records actual IDs/counts and no-conversion/immutability/approval/zero-action values. This does not verify how the source measured a metric.
+
 v0.4 requires three metrics: monthly support volume, repetitive-contact share and first-response hours. A pilot recommendation is only available when all three are usable. The default thresholds are 1,000 contacts, 40 percent repetitive share and eight response hours. They are explicit configuration, not universal standards.
 
 Scenario comparison changes only those declared thresholds. It reuses the same eligible metric selections and reports whether the outcome changes. Missing, conflicted, stale, future-dated or unverified evidence cannot be made eligible by selecting a more permissive scenario.

@@ -1,4 +1,23 @@
 {
+  "decision_metric_unit_receipt": {
+    "schema_version": "1.0",
+    "policy_id": "decision-metric-units-v1",
+    "required_units": {
+      "monthly_support_volume": "contacts/month",
+      "repetitive_contact_share_pct": "percent",
+      "first_response_hours": "hours"
+    },
+    "validated_evidence_ids": [
+      "E-01",
+      "E-02",
+      "E-03"
+    ],
+    "validated_metric_count": 3,
+    "unit_conversion_performed": false,
+    "evidence_mutated": false,
+    "human_approval_required": true,
+    "external_actions_executed": 0
+  },
   "engagement_id": "SYNTH-CONSULT-001",
   "analysis_date": "2026-08-08",
   "status": "recommendation_ready",

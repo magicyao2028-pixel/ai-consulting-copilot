@@ -3,6 +3,7 @@
 - Use synthetic public data only.
 - Do not place credentials, customer messages or private company reports in the repository.
 - Treat reliability labels as review inputs, not proof of truth.
+- Treat canonical metric units as declarations, not measurement proof. v1.2 rejects wrong/missing units for the three decision metrics before memo generation in mapping/API/scenario routes, performs no automatic conversion and preserves existing finite numeric guards. A reviewed source definition is still required before real use.
 - Require explicit synthetic-data and consent flags before public note normalization.
 - Record reviewer ID, date, decision and rationale before promoting an interview observation.
 - Do not promote opinions or requests into the evidence register.

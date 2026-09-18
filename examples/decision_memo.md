@@ -43,6 +43,8 @@ Run a 30-day assistive customer-service pilot with human approval gates.
 - Ignored unverified evidence: E-05
 - Stale evidence: E-06
 - Future-dated evidence: none
+- Decision metric unit policy: decision-metric-units-v1
+- Unit conversion performed: False
 - Human approval required: yes
 
 ## Evidence register
